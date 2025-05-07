@@ -1,0 +1,25 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+.text-coffee {
+        color: #b98a55;
+      }
+
+.bg-coffee{
+    background-color: #b98a55;
+}
+
+.bg-coffee:hover{
+    background-color: rgb(121, 45, 2);
+}
+
+.text-a{
+    color: white;
+}
+
+.text-a:hover{
+    color: #b98a55;
+}
+
+.ff-popins{
+    font-family: "Poppins", sans-serif;
+}
