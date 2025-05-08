@@ -24,3 +24,17 @@
     font-family: "Poppins", sans-serif;
 }
 
+.bg-coffe{
+    background-color: #b98a55;
+}
+
+.btn-custom {
+    background-color: #b98a55;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: rgb(121, 45, 2);
+}
+
+

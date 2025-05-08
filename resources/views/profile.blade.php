@@ -20,7 +20,79 @@
     </div>
     <a href="" class="text-white text-decoration-none ff-popins rounded-4 bg-danger py-2 px-3 float-end">Logout</a>
 </nav>
-<body class="bg-black">
-
+<body class="bg-coffe py-5">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4">
+                <div class="card-body">
+                    <h3 class="card-title mb-4 text-center">Profile</h3>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama</label>
+                            <p></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <p></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notelpon" class="form-label">No Telpon</label>
+                            <p></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <p></p>
+                        </div>
+                        <div class="d-grid">
+                            <button onclick="tampilkan()" type="submit" class="btn-custom border-0 rounded-3 py-1 px-2">Ubah Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="targetDiv" class=" mt-5" style="display: none;">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4">
+                <div class="card-body">
+                    <h3 class="card-title mb-4 text-center">Update Profile</h3>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter your full name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Masukkan password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Konfirmasi password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="notelepon" class="form-label">No Telepon</label>
+                            <input type="notelepon" class="form-control" id="telepon" placeholder="Ubah No Telepon">
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <input type="alamat" class="form-control" id="alamat" placeholder="Ubah Alamat">
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<script>
+    function tampilkan() {
+        document.getElementById('targetDiv').style.display = 'block';
+    }
+</script>
 </html>
