@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Register - Laravel 11</title>
-    @vite(['resources/js/app.js']) <!-- Bootstrap & app.js via Vite -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    @vite(['resources/js/app.js']) <!-- Bootstrap & app.js via Vite -->
+    <link rel="stylesheet" href="../../css/register.css">
+    
 </head>
 
 <body>
@@ -95,7 +97,7 @@
                        id="password"
                        name="password"
                        required>
-                <button class="btn btn-outline-secondary" type="button" id="togglePassword" tabindex="-1" aria-label="Toggle password visibility">
+                <button class="btn btn-outline-dark" type="button" id="togglePassword" tabindex="-1" aria-label="Toggle password visibility">
                     <i class="bi bi-eye"></i>
                 </button>
             </div>
@@ -112,13 +114,13 @@
                        id="password_confirmation"
                        name="password_confirmation"
                        required>
-                <button class="btn btn-outline-secondary" type="button" id="togglePasswordConfirmation" tabindex="-1" aria-label="Toggle password confirmation visibility">
+                <button class="btn btn-outline-dark" type="button" id="togglePasswordConfirmation" tabindex="-1" aria-label="Toggle password confirmation visibility">
                     <i class="bi bi-eye"></i>
                 </button>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Register</button>
+        <button type="submit" class="btn-custom py-2 mt-3 w-100">Register</button>
     </form>
 </div>
 

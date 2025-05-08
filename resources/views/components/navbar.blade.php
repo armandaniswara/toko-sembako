@@ -8,7 +8,7 @@
         <li><a href="#belanja" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Pergi Belanja</a></li>
         <li><a href="#contact" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Kontak</a></li>
     </ul>
-    <a href="/login" class="d-flex text-decoration-none rounded-4 text-light bg-coffee fs-6 py-2 px-3 hover:bg-brown ff-popins fw-bold ms-5">Login</a>
+    <a href="/login" class="d-flex text-decoration-none rounded-4 text-light bg-coffee fs-6 py-2 px-4  hover:bg-brown ff-popins fw-bold ms-5 ">Login</a>
 
     <div class="navbar-extra">
       <a href="/checkout" id="shopping-cart" class="text-a me-3"><i data-feather="shopping-cart"></i></a>

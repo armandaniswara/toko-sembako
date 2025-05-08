@@ -1,0 +1,19 @@
+.log{
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-custom{
+    background-color: #b98a55;
+    color: black; 
+    border:none;
+    border-radius: 1rem;
+}
+
+.btn-custom:hover{
+    background-color: rgb(121, 45, 2); 
+}
+
+input.form-control:focus{
+    border-color: #b98a55;
+    box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+}

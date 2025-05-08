@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login - Laravel 11</title>
     @vite(['resources/js/app.js']) <!-- Assuming you use Vite and Bootstrap -->
+    <link rel="stylesheet" href="../../css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap" rel="stylesheet"/>
 </head>
 <body>
 <div class="container mt-5" style="max-width: 400px;">
-    <h2 class="mb-4">Login</h2>
+    <h2 class="log mb-4">Login</h2>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -27,7 +31,7 @@
             <label for="email" class="form-label">Email address</label>
             <input
                 type="email"
-                class="form-control @error('email') is-invalid @enderror"
+                class="form-control  @error('email') is-invalid @enderror"
                 id="email"
                 name="email"
                 value="{{ old('email') }}"
@@ -53,7 +57,7 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Login</button>
+        <button type="submit" class="btn-custom py-2 mt-2 w-100">Login</button>
 
         <div class="mt-3 text-center">
             <a href="{{ route('register') }}">Don't have an account? Register here</a>
