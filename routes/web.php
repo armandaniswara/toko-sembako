@@ -17,6 +17,9 @@ Route::get('/home', function () {
     return view('home');
 });
 
+Route::get('/profile', function () {
+    return view('profile');
+});
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/dashboard', function () {
