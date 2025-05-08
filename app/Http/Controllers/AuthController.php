@@ -90,13 +90,24 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        // Attempt to login
+        // Attempt login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/home'); // or your intended page
+
+            $user = Auth::user();
+
+            // Cek role
+            if ($user->role === 'Admin') {
+                return redirect()->intended('/admin');
+            } elseif ($user->role === 'User') {
+                return redirect()->intended('/home');
+            } else {
+                Auth::logout();
+                return redirect()->route('login')->withErrors(['email' => 'Unauthorized role.']);
+            }
         }
 
-        // If login fails
+        // Login gagal
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
