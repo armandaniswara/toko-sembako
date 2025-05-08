@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
@@ -49,3 +50,6 @@ Route::get('/admin', function () {
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
+// User management
+Route::get('/user', [UserController::class, 'index'])->name('user.index');
+Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
