@@ -13,19 +13,25 @@ Route::get('admin', function () {
 });
 
 
-//Route::get('/home', function () {
-//    return view('home');
+Route::get('/home', function () {
+    return view('home');
+});
+
+
+//Route::middleware('auth')->group(function () {
+//    Route::get('/dashboard', function () {
+//        return view('welcome'); // create this view as needed
+//    })->name('dashboard');
 //});
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('welcome'); // create this view as needed
-    })->name('dashboard');
-});
-
+// Register User
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+
+// Register Admin
+Route::get('/register/admin', [AuthController::class, 'showRegistrationAdminForm'])->name('register-admin');
+Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('register-admin.submit');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');

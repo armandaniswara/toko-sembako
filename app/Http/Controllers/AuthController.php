@@ -9,12 +9,15 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Show login form
-    public function showLoginForm()
+
+
+    // Show registration form
+    public function showRegistrationForm()
     {
-        return view('auth.login');
+        return view('auth.register');
     }
 
+    // Register User
     public function register(Request $request)
     {
         // Validate input
@@ -32,6 +35,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'telephone' => $request->telephone,
             'alamat' => $request->alamat,
+            'role' => 'User',
             'password' => Hash::make($request->password),
         ]);
 
@@ -39,10 +43,42 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
 
-    // Show registration form
-    public function showRegistrationForm()
+    // Show registration form Admin
+    public function showRegistrationAdminForm()
     {
-        return view('auth.register');
+        return view('auth.register-admin');
+    }
+
+    // Register Admin
+    public function registerAdmin(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'telephone' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'confirmed', 'min:6'],
+        ]);
+
+        // Create user
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'alamat' => $request->alamat,
+            'role' => 'Admin',
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Redirect to login page with success message
+        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
+    }
+
+    // Show login form
+    public function showLoginForm()
+    {
+        return view('auth.login');
     }
 
     // Handle login request
@@ -57,7 +93,7 @@ class AuthController extends Controller
         // Attempt to login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard'); // or your intended page
+            return redirect()->intended('/home'); // or your intended page
         }
 
         // If login fails
