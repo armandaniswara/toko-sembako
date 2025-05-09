@@ -37,4 +37,12 @@
     background-color: rgb(121, 45, 2);
 }
 
+.bg-grey{
+    background: #393E46;
+}
+
+.bg-dark-grey{
+    background: #222831;
+}
+
 
