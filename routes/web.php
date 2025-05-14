@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
@@ -54,6 +55,8 @@ Route::get('/admin', function () {
 
 
 
-// User management
+// Admin Page
 Route::get('/user', [UserController::class, 'index'])->name('user.index');
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+
+Route::resource('products', ProductsController::class);
