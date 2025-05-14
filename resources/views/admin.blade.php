@@ -9,7 +9,6 @@
     <title>Sidenav Light - SB Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
-    <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -18,7 +17,7 @@
         <a href="" class="fs-4 ff-popins text-decoration-none text-white fw-bold fst-italic ms-3">Sembako<span class="text-coffee">Plus.</span></a>
     </a>
 </div>
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-grey" style="width: 280px; height:573px;">
+<div class="col-md-3 col-lg-2  text-white min-vh-100 p-3 bg-grey" >
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
             <a href="#" class="nav-link text-light  " aria-current="page">
@@ -27,7 +26,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link text-white">
+            <a href="/user" class="nav-link text-white">
                 <i class="bi bi-person-fill me-2" ></i>
                 User
             </a>
@@ -51,7 +50,7 @@
             </a>
         </li>
     </ul>
-    <hr>
+
 </div>
 </body>
 </html>

@@ -22,6 +22,11 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
+
+Route::get('/checkout', function () {
+    return view('checkout');
+});
+
 //Route::middleware('auth')->group(function () {
 //    Route::get('/dashboard', function () {
 //        return view('welcome'); // create this view as needed
@@ -47,8 +52,7 @@ Route::get('/admin', function () {
 });
 
 
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
 
 // User management
 Route::get('/user', [UserController::class, 'index'])->name('user.index');

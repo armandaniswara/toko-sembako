@@ -25,7 +25,7 @@
         </main>
       </section>
       <!-- Hero section end -->
-  
+
       <!--about section start  -->
       <section id="about" class="about">
         <h2 class="fw-bold fs-1 ff-popins text-light"><span>Tentang</span> kami</h2>
@@ -45,7 +45,7 @@
         </div>
       </section>
       <!--about section end  -->
-  
+
       <!-- Menu section start -->
       <section class="belanja" id="belanja">
         <h2 class="fw-bold fs-1 ff-popins text-light"><span>Pergi</span> Belanja</h2>
@@ -84,7 +84,7 @@
         </div>
       </section>
       <!-- Menu section end -->
-       
+
       <!-- contact section start -->
       <section class="contact" id="contact">
           <h2  class="fw-bold fs-1 ff-popins text-light"><span>Kontak</span> Kami</h2>
@@ -102,7 +102,7 @@
           </div>
       </section>
       <!-- contact section end -->
-  
+
       <!-- footer start -->
       <footer>
         <div class="socials">

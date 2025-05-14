@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,33 +7,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>@yield('title', 'SembakoPlus')</title>
-
+    <title>Sidenav Light - SB Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body class="sb-nav-fixed">
+{{--<body class="sb-nav-fixed">--}}
 
-@include('partials.navbar')
+{{--@include('partials.navbar')--}}
 
-<div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-        @include('partials.sidebar')
-    </div>
-    <div id="layoutSidenav_content">
-        <main>
-            <div class="container-fluid px-4">
+{{--<div id="layoutSidenav">--}}
+{{--    <div id="layoutSidenav_nav">--}}
+{{--        @include('partials.sidebar')--}}
+{{--    </div>--}}
+{{--    <div id="layoutSidenav_content">--}}
+{{--        <main>--}}
+{{--            <div class="container-fluid px-4">--}}
+{{--                @yield('content')--}}
+{{--            </div>--}}
+{{--        </main>--}}
+
+{{--        @include('partials.footer')--}}
+{{--    </div>--}}
+{{--</div>--}}
+
+{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>--}}
+{{--<script src="{{ asset('js/scripts.js') }}"></script>--}}
+{{--</body>--}}
+<body>
+    @include('partials.navbar')
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2  text-white min-vh-100 p-3 bg-grey" >
+{{--            <div class="col-md-3 col-lg-2 bg-dark text-white min-vh-100 p-3">--}}
+                @include('partials.sidebar')
+            </div>
+
+            <!-- Content -->
+            <div class="col-md-9 col-lg-10 ms-sm-auto px-4 py-4">
                 @yield('content')
             </div>
-        </main>
-
-        @include('partials.footer')
+        </div>
     </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="{{ asset('js/scripts.js') }}"></script>
 </body>
 </html>

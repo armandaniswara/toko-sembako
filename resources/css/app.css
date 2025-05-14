@@ -45,4 +45,15 @@
     background: #222831;
 }
 
+.me-custom{
+    margin-right: 400px ;
+}
+
+.p-custom{
+    padding-top: 7%;
+}
+
+.shadow-custom{
+    box-shadow: black;
+}
 

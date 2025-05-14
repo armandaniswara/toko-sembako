@@ -3,10 +3,10 @@
 @section('title', 'User')
 
 @section('content')
-    <h1 class="mt-4">User</h1>
+
 
     <div class="container mt-5">
-
+        <h1 class="mt-4">User</h1>
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
