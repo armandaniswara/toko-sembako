@@ -32,91 +32,27 @@
             </div>
         </form>
 
-        <!-- Modal -->
-        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
-                            @csrf
-
-                            <div class="mb-3">
-                                <label for="sku" class="form-label">SKU</label>
-                                <input type="text" class="form-control" id="sku" name="sku" required
-                                       value="{{ old('sku') }}">
-                                @error('sku')
-                                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required
-                                       value="{{ old('name') }}">
-                                @error('name')
-                                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="price" class="form-label">Price</label>
-                                <input type="number" class="form-control" id="price" name="price" required
-                                       value="{{ old('price') }}">
-                                @error('price')
-                                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="stock" class="form-label">Stock</label>
-                                <input type="number" class="form-control" id="stock" name="stock" required
-                                       value="{{ old('stock') }}">
-                                @error('stock')
-                                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Product Image</label>
-                                <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                                @error('image')
-                                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Add Product</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @if($products->count())
+        {{--    @if($products->count())--}}
         <table class="table table-striped mt-4">
             <thead>
             <tr>
-                <th>No</th>
-                <th>Image</th>
-                <th>SKU</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Action</th>
+                <th scope="col">No</th>
+                <th scope="col">Image</th>
+                <th scope="col">SKU</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($products as $index => $product)
+            @forelse ($products as $index => $product)
                 <tr>
                     <td>{{ $products->firstItem() + $index }}</td>
                     <td>
                         @if($product->image)
-                            <img src="{{ asset('storage/products/' . $product->image) }}" alt="Product Image" width="80">
+                            <img src="{{ asset('storage/products/' . $product->image) }}" alt="Product Image"
+                                 width="80">
                         @else
                             <span class="text-muted">No image</span>
                         @endif
@@ -126,25 +62,90 @@
                     <td>Rp{{ number_format($product->price, 0, ',', '.') }}</td>
                     <td>{{ $product->stock }}</td>
                     <td>
-                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        {{--                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">Edit</a>--}}
+                        <button type="button"
+                                class="btn btn-warning btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editProductModal"
+                                data-id="{{ $product->id }}"
+                                data-sku="{{ $product->sku }}"
+                                data-name="{{ $product->name }}"
+                                data-price="{{ $product->price }}"
+                                data-stock="{{ $product->stock }}"
+                                data-image="{{ asset('storage/products/' . $product->image) }}">
+                            Edit
+                        </button>
                         <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus produk ini?')">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Yakin ingin menghapus produk ini?')">Delete
+                            </button>
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="7" class="text-center">No products found.</td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
 
-        {{-- Pagination --}}
+        <!-- Pagination Links -->
         <div class="d-flex justify-content-center">
-            {{ $products->links() }}
+            {{ $products->withQueryString()->links() }}
         </div>
-    @else
-        <div class="alert alert-info mt-4">
-            Tidak ada produk ditemukan.
-        </div>
-    @endif
+
+        <!-- Add Product Modal -->
+        @include('admin.components.add-product-modal')
+
+        <!-- Edit Product Modal -->
+{{--        @include('admin.components.edit-product-modal')--}}
+
+    @foreach ($products as $product)
+        @include('admin.components.edit-product-modal', ['product' => $product])
+    @endforeach
+
+        @push('scripts')
+            <script>
+                setTimeout(function () {
+                    const alertSuccess = document.querySelector('.alert-success');
+                    if (alertSuccess) {
+                        alertSuccess.style.transition = 'opacity 0.5s ease';
+                        alertSuccess.style.opacity = '0';
+                        setTimeout(() => alertSuccess.remove(), 500); // Hapus setelah fade out
+                    }
+                }, 3000); // 3000ms = 3 detik
+
+                const editModal = document.getElementById('editProductModal');
+                editModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+
+                    const id = button.getAttribute('data-id');
+                    const sku = button.getAttribute('data-sku');
+                    const name = button.getAttribute('data-name');
+                    const price = button.getAttribute('data-price');
+                    const stock = button.getAttribute('data-stock');
+                    const image = button.getAttribute('data-image');
+
+                    // Isi input modal dengan data
+                    editModal.querySelector('#edit-id').value = id;
+                    editModal.querySelector('#edit-sku').value = sku;
+                    editModal.querySelector('#edit-name').value = name;
+                    editModal.querySelector('#edit-price').value = price;
+                    editModal.querySelector('#edit-stock').value = stock;
+                    if (image) {
+                        editModal.querySelector('#edit-preview').src = image;
+                        editModal.querySelector('#edit-preview').style.display = 'block';
+                    } else {
+                        editModal.querySelector('#edit-preview').style.display = 'none';
+                    }
+
+                    // Set form action URL
+                    const form = document.getElementById('editProductForm');
+                    form.action = `/admin/products/${id}`;
+                });
+            </script>
+    @endpush
 @endsection

@@ -60,3 +60,4 @@ Route::get('/user', [UserController::class, 'index'])->name('user.index');
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
 Route::resource('/products', ProductsController::class);
+Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');
