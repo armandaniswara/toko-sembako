@@ -1,55 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Sidenav Light - SB Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <title>Home</title>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
+          rel="stylesheet"/>
 </head>
-{{--<body class="sb-nav-fixed">--}}
-
-{{--@include('partials.navbar')--}}
-
-{{--<div id="layoutSidenav">--}}
-{{--    <div id="layoutSidenav_nav">--}}
-{{--        @include('partials.sidebar')--}}
-{{--    </div>--}}
-{{--    <div id="layoutSidenav_content">--}}
-{{--        <main>--}}
-{{--            <div class="container-fluid px-4">--}}
-{{--                @yield('content')--}}
-{{--            </div>--}}
-{{--        </main>--}}
-
-{{--        @include('partials.footer')--}}
-{{--    </div>--}}
-{{--</div>--}}
-
-{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>--}}
-{{--<script src="{{ asset('js/scripts.js') }}"></script>--}}
-{{--</body>--}}
-<body>
-    @include('partials.navbar')
-
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2  text-white min-vh-100 p-3 bg-grey" >
-{{--            <div class="col-md-3 col-lg-2 bg-dark text-white min-vh-100 p-3">--}}
-                @include('partials.sidebar')
-            </div>
-
-            <!-- Content -->
-            <div class="col-md-9 col-lg-10 ms-sm-auto px-4 py-4">
-                @yield('content')
-            </div>
-        </div>
-    </div>
+<x-navbar></x-navbar>
+<body class="bg-black">
+@yield('content')
+<!-- footer start -->
+@include('partials.footer')
 </body>
+<script>
+    feather.replace();
+</script>
 </html>
