@@ -24,7 +24,7 @@
             </div>
         </form>
 
-        <table class="table">
+        <table class="table table-striped mt-4">
             <thead>
             <tr>
                 <th scope="col">No</th>
@@ -70,7 +70,8 @@
         </table>
 
         <!-- Pagination Links -->
-        {{ $users->withQueryString()->links() }}
-
+        <div class="d-flex justify-content-center">
+            {{ $users->withQueryString()->links() }}
+        </div>
     </div>
 @endsection

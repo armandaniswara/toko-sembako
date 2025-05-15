@@ -69,3 +69,4 @@ Route::resource('/products', ProductsController::class);
 Route::resource('/transaction', TransactionController::class);
 
 
+Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');
