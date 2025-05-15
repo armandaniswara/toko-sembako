@@ -59,4 +59,4 @@ Route::get('/admin', function () {
 Route::get('/user', [UserController::class, 'index'])->name('user.index');
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
-Route::resource('products', ProductsController::class);
+Route::resource('/products', ProductsController::class);

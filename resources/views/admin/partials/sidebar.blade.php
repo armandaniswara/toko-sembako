@@ -51,7 +51,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ url('produk') }}" class="nav-link text-white">
+            <a href="{{ url('products') }}" class="nav-link text-white">
                 <i class="bi bi-box-seam-fill me-2"></i>
                 Produk
             </a>

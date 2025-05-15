@@ -23,14 +23,14 @@ class ProductsController extends Controller
 
         $products = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('products', compact('products', 'search'));
+        return view('admin.products', compact('products', 'search'));
     }
 
     public function destroy(Products $product)
     {
         $product->delete();
 
-        return redirect()->route('product.index')->with('success', 'Product berhasil dihapus.');
+        return redirect()->route('products.index')->with('success', 'Product berhasil dihapus.');
     }
 
     public function store(Request $request)
@@ -40,10 +40,18 @@ class ProductsController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'], // max 2MB
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+            $image->storeAs('public/products', $filename);
+            $validated['image'] = $filename;
+        }
 
         Products::create($validated);
 
-        return redirect()->route('products')->with('success', 'Product berhasil ditambahkan.');
+        return redirect()->route('products.index')->with('success', 'Product berhasil ditambahkan.');
     }
 }

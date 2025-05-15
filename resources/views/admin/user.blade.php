@@ -1,9 +1,8 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('title', 'User')
 
 @section('content')
-
 
     <div class="container mt-5">
         <h1 class="mt-4">User</h1>
@@ -47,7 +46,8 @@
                     <td>{{ $user->alamat }}</td>
                     <td>{{ $user->created_at->format('d M Y') }}</td>
                     <td>
-                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');">
+                        <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                              onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');">
                             @csrf
                             @method('DELETE')
                             <button
