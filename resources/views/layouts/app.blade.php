@@ -14,7 +14,7 @@
           rel="stylesheet"/>
 </head>
 <x-navbar></x-navbar>
-<body class="bg-black">
+<body class="bg-light">
 @yield('content')
 <!-- footer start -->
 @include('partials.footer')

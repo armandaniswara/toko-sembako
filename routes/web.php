@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
@@ -27,6 +28,11 @@ Route::get('/profile', function () {
 Route::get('/checkout', function () {
     return view('checkout');
 });
+
+Route::get('/transaksi', function () {
+    return view('transaksi');
+});
+
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/dashboard', function () {
@@ -60,3 +66,6 @@ Route::get('/user', [UserController::class, 'index'])->name('user.index');
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
 Route::resource('/products', ProductsController::class);
+Route::resource('/transaction', TransactionController::class);
+
+

@@ -13,14 +13,14 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    @include('partials.navbar')
+    @include('admin.partials.navbar')
 
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2  text-white min-vh-100 p-3 bg-grey" >
 {{--            <div class="col-md-3 col-lg-2 bg-dark text-white min-vh-100 p-3">--}}
-                @include('partials.sidebar')
+                @include('admin.partials.sidebar')
             </div>
 
             <!-- Content -->

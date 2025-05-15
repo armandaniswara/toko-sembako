@@ -22,7 +22,7 @@
 {{--            </a>--}}
 {{--            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">--}}
 {{--                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">--}}
-{{--                    <a class="nav-link" href="{{ url('transaksi') }}">Transaksi</a>--}}
+{{--                    <a class="nav-link" href="{{ url('transaksi') }}">Transactions</a>--}}
 {{--                    <a class="nav-link" href="{{ url('login') }}">Login</a>--}}
 {{--                    <a class="nav-link" href="{{ url('register') }}">Register</a>--}}
 {{--                    <a class="nav-link" href="{{ url('password/reset') }}">Forgot Password</a>--}}
@@ -63,7 +63,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ url('transaksi') }}" class="nav-link text-white">
+            <a href="{{ url('transaction') }}" class="nav-link text-white">
                 <i class="bi bi-arrow-left-right me-2"></i>
                 Transaksi
             </a>

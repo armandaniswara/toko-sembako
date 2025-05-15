@@ -1,6 +1,6 @@
 <section class="belanja" id="belanja">
-    <h2 class="fw-bold fs-1 ff-popins text-light"><span>Pergi</span> Belanja</h2>
-    <p class="text-light">"Belanja praktis, harga ekonomis! Semua kebutuhan anda ada di sini!"</p>
+    <h2 class="fw-bold fs-1 ff-popins text-dark"><span>Pergi</span> Belanja</h2>
+    <p class="text-dark">"Belanja praktis, harga ekonomis! Semua kebutuhan anda ada di sini!"</p>
     <div class="roq">
         <div class="belanja-card">
             <img src="img/belanja/1.png" alt="latte" class="belanja-card-img">
