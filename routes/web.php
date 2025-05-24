@@ -68,5 +68,8 @@ Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.de
 Route::resource('/products', ProductsController::class);
 Route::resource('/transaction', TransactionController::class);
 
+Route::prefix('admin')->group(function () {
+    Route::resource('transactions', TransactionController::class);
+});
 
 Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');

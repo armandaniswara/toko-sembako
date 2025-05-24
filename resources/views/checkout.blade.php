@@ -44,7 +44,7 @@
             <label class="ms-5" >Aksi</label>
         </div>
     </div>
-    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 200px;">
+    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
             <div class=" d-flex">
                 <input class="" type="checkbox" value="" id="defaultCheck1">
                 <label class="ms-4" for="defaultCheck1">
@@ -59,7 +59,7 @@
             </div>
 
     </div>
-    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 200px;">
+    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
         <div class=" d-flex">
             <input class="" type="checkbox" value="" id="defaultCheck1">
             <label class="ms-4" for="defaultCheck1">
@@ -73,7 +73,7 @@
             <label class="ms-5" >Hapus</label>
         </div>
     </div>
-    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 200px;">
+    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
         <div class=" d-flex">
             <input class="" type="checkbox" value="" id="defaultCheck1">
             <label class="ms-4" for="defaultCheck1">

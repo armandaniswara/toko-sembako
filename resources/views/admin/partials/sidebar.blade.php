@@ -57,12 +57,6 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link text-white">
-                <i class="bi bi-cash me-2"></i>
-                Pembayaran
-            </a>
-        </li>
-        <li>
             <a href="{{ url('transaction') }}" class="nav-link text-white">
                 <i class="bi bi-arrow-left-right me-2"></i>
                 Transaksi

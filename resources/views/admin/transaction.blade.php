@@ -36,11 +36,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="#" id="editTransactionForm">
                         @csrf
+                        @method('PUT')
 
+                        <input type="hidden" name="id" id="edit-id">
+                        <p>Status Pengiriman</p>
 
-                        <select name="status_pengiriman" class="form-control my-1" required>
+                        <select name="pengiriman" id="edit-pengiriman" class="form-control my-1" required>
                             <option value="">-- Pilih Status Pengiriman --</option>
                             <option value="Belum Dikirim" {{ old('status_pengiriman') == 'Belum Dikirim' ? 'selected' : '' }}>Belum Dikirim</option>
                             <option value="Dalam Perjalanan" {{ old('status_pengiriman') == 'Dalam Perjalanan' ? 'selected' : '' }}>Dalam Perjalanan</option>
@@ -48,7 +51,9 @@
                             <option value="Dibatalkan" {{ old('status_pengiriman') == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
                         </select>
 
-                        <select name="status_pembayaran" class="form-control my-1" required>
+                        <p>Status Pembayaran</p>
+
+                        <select name="pembayaran" id="edit-pembayaran" class="form-control my-1" required>
                             <option value="">-- Pilih Status Pembayaran --</option>
                             <option value="Belum Dibayar" {{ old('status_pembayaran') == 'Belum Dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
                             <option value="Dibayar" {{ old('status_pembayaran') == 'Dibayar' ? 'selected' : '' }}>Dibayar</option>
@@ -62,6 +67,8 @@
             </div>
         </div>
     </div>
+
+
     @if($transactions->count())
         <table class="table table-striped mt-4">
             <thead>
@@ -77,22 +84,7 @@
             </thead>
             <tbody>
             @foreach($transactions as $index => $transaction)
-                <tr>
-                    <td>{{ $transactions->firstItem() + $index }}</td>
-                    <td>{{ $transaction->tanggal_pemesanan->format('d M Y')  }}</td>
-                    <td>{{ $transaction->invoice }}</td>
-                    <td>{{ $transaction->status }}</td>
-                    <td>{{ $transaction->pengiriman }}</td>
-                    <td>{{ $transaction->pembayaran }}</td>
-                    <td>
-                        <a href="#" data-bs-toggle="modal" type="button" data-bs-target="#addProductModal" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('products.destroy', $transaction->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus produk ini?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+                @include('admin.components.edit-transactions-modal', ['transaction' => $transaction])
             @endforeach
             </tbody>
         </table>
@@ -106,4 +98,26 @@
             Tidak ada produk ditemukan.
         </div>
     @endif
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const editModal = document.getElementById('addProductModal');
+                editModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+
+                    const id = button.getAttribute('data-id');
+                    const status = button.getAttribute('data-status');
+                    const pengiriman = button.getAttribute('data-pengiriman');
+                    const pembayaran = button.getAttribute('data-pembayaran');
+
+                    const form = document.getElementById('editTransactionForm');
+                    form.action = `/admin/transactions/${id}`;
+
+                    document.getElementById('edit-id').value = id;
+                    document.getElementById('edit-pengiriman').value = pengiriman;
+                    document.getElementById('edit-pembayaran').value = pembayaran;
+                });
+            });
+        </script>
+    @endpush
 @endsection

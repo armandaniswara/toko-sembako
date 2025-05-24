@@ -82,22 +82,16 @@ class TransactionController extends Controller
     public function update(Request $request, Transactions $transaction)
     {
         $request->validate([
-            'tanggal_pemesanan' => 'required|date',
-            'invoice' => 'required|unique:transaksi,invoice,' . $transaction->id,
-            'status' => 'required|string',
             'pengiriman' => 'required|string',
             'pembayaran' => 'required|string',
         ]);
 
         $transaction->update([
-            'tanggal_pemesanan' => $request->tanggal_pemesanan,
-            'invoice' => $request->invoice,
-            'status' => $request->status,
             'pengiriman' => $request->pengiriman,
             'pembayaran' => $request->pembayaran,
         ]);
 
-        return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil diperbarui.');
+        return redirect()->route('transaction.index')->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
     /**
@@ -106,6 +100,7 @@ class TransactionController extends Controller
     public function destroy(Transactions $transaction)
     {
         $transaction->delete();
-        return redirect()->route('transaksi.index')->with('success', 'Data transaksi berhasil dihapus.');
+        return redirect()->route('transaction.index')->with('success', '...');
+
     }
 }
