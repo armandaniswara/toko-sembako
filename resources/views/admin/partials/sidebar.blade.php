@@ -62,5 +62,11 @@
                 Transaksi
             </a>
         </li>
+        <li>
+            <a href="{{ url('parameter') }}" class="nav-link text-white">
+                <i class="bi bi-sliders2 me-2"></i>
+                Parameter
+            </a>
+        </li>
     </ul>
 

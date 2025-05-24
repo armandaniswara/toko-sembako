@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
@@ -67,6 +68,10 @@ Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.de
 
 Route::resource('/products', ProductsController::class);
 Route::resource('/transaction', TransactionController::class);
+//Route::resource('/Parameter', TransactionController::class);
+
+Route::get('/parameter', [ParameterController::class, 'index'])->name('parameter.index');
+
 
 Route::prefix('admin')->group(function () {
     Route::resource('transactions', TransactionController::class);
