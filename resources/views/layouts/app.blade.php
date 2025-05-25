@@ -22,4 +22,5 @@
 <script>
     feather.replace();
 </script>
+@stack('scripts')
 </html>

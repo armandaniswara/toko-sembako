@@ -13,7 +13,7 @@
 <!--about section end  -->
 <hr class="w-75 mx-auto">
 <!-- Menu section start -->
-@include('components.belanja-section')
+@include('components.belanja-section', ['products' => $products])
 <!-- Menu section end -->
 <hr class="w-75 mx-auto">
 <!-- contact section start -->

@@ -8,10 +8,9 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ParameterController;
 use \App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [ProductsController::class, 'shop']);
 
 Route::get('admin', function () {
     return view('admin');
@@ -21,6 +20,7 @@ Route::get('admin', function () {
 Route::get('/home', function () {
     return view('home');
 });
+
 
 Route::get('/profile', function () {
     return view('profile');
@@ -34,6 +34,8 @@ Route::get('/checkout', function () {
 Route::get('/transaksi', function () {
     return view('transaksi');
 });
+
+
 
 
 //Route::middleware('auth')->group(function () {
@@ -60,6 +62,8 @@ Route::get('/admin', function () {
     return view('admin');
 });
 
+Route::get('/admin', [DashboardController::class, 'index'])
+    ->name('admin.dashboard');
 
 
 
@@ -69,6 +73,10 @@ Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.de
 
 Route::resource('/products', ProductsController::class);
 Route::resource('/transaction', TransactionController::class);
+
+//Route::get('/dashboard', function () {
+//    return view('admin.dashboard');
+//});
 
 Route::prefix('admin')->group(function () {
     Route::resource('transactions', TransactionController::class);

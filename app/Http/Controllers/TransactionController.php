@@ -28,6 +28,7 @@ class TransactionController extends Controller
         return view('admin.transaction', compact('transactions', 'search'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
@@ -44,17 +45,17 @@ class TransactionController extends Controller
         $request->validate([
             'tanggal_pemesanan' => 'required|date',
             'invoice' => 'required|unique:transaksi',
-            'status' => 'required|string',
             'pengiriman' => 'required|string',
             'pembayaran' => 'required|string',
+            'total' => 'required|numeric|min:0',
         ]);
 
         Transactions::create([
             'tanggal_pemesanan' => $request->tanggal_pemesanan,
             'invoice' => $request->invoice,
-            'status' => $request->status,
             'pengiriman' => $request->pengiriman,
             'pembayaran' => $request->pembayaran,
+            'total' => $request->price
         ]);
 
         return redirect()->route('transaction.index')->with('success', 'Data transaksi berhasil ditambahkan.');
