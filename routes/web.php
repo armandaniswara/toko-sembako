@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ParameterController;
+use \App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 
@@ -81,3 +83,8 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');
+
+Route::get('/parameter', [ParameterController::class, 'index'])->name('parameter.index');
+Route::post('/parameter', [ParameterController::class, 'store'])->name('parameter.store');
+Route::put('/parameter/{type}/{id}', [ParameterController::class, 'update'])->name('parameter.update');
+Route::delete('/parameter/{type}/{id}', [ParameterController::class, 'destroy'])->name('parameter.destroy');
