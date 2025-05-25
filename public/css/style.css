@@ -1,6 +1,5 @@
 :root {
     --primary: #b98a55;
-    --bg: #010101;
 }
 
 html {
@@ -104,24 +103,24 @@ body {
 .contact h2 span {
     color: var(--primary);
 }
-.about .row {
+.about .roq {
     display: flex;
 }
-.about .row .about-img {
+.about .roq .about-img {
     flex: 1 1 45rem;
 }
-.about .row .about-img img {
+.about .roq .about-img img {
     width: 100%;
 }
-.about .row .content {
+.about .roq .content {
     flex: 1 1 35rem;
     padding: 0 1rem;
 }
-.about .row .content h3 {
+.about .roq .content h3 {
     font-size: 1.8rem;
     margin-bottom: 1rem;
 }
-.about .row .content p {
+.about .roq .content p {
     margin-bottom: 0.8rem;
     font-size: 1.3rem;
     font-weight: 100;
@@ -140,42 +139,42 @@ body {
     font-weight: 100;
     line-height: 1.6;
 }
-.belanja .row {
+.belanja .roq {
     display: flex;
     flex-wrap: wrap;
     margin-top: 5rem;
     justify-content: center;
 }
 
-.belanja .row .belanja-card {
+.belanja .roq .belanja-card {
     text-align: center;
     padding-bottom: 4rem;
 }
-.belanja .row .belanja-card img {
+.belanja .roq .belanja-card img {
     border-radius: 50%;
     width: 80%;
 }
-.belanja .row .belanja-card .belanja-card-title {
+.belanja .roq .belanja-card .belanja-card-title {
     margin: 1.5rem auto 1rem;
 }
 
 /* contact section */
-.contact .row {
+.contact .roq {
     display: flex;
     margin-top: 2rem;
     background-color: #222;
 }
-.contact .row .map {
+.contact .roq .map {
     flex: 1 1 45rem;
     width: 100%;
     object-fit: cover;
 }
-.contact .row form {
+.contact .roq form {
     flex: 1 1 45rem;
     padding: 5rem 2rem;
     text-align: center;
 }
-.contact .row form .input-group {
+.contact .roq form .input-group {
     display: flex;
     align-items: center;
     margin-top: 2rem;
@@ -183,14 +182,14 @@ body {
     border: 1px solid #eee;
     padding-left: 2rem;
 }
-.contact .row form .input-group input {
+.contact .roq form .input-group input {
     width: 100%;
     padding: 2rem;
     font-size: 1.7rem;
     background: none;
     color: #fff;
 }
-.contact .row form .btn {
+.contact .roq form .btn {
     margin-top: 3rem;
     display: inline-block;
     padding: 1rem 3rem;

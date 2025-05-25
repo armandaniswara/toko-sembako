@@ -23,3 +23,37 @@
 .ff-popins{
     font-family: "Poppins", sans-serif;
 }
+
+.bg-coffe{
+    background-color: #b98a55;
+}
+
+.btn-custom {
+    background-color: #b98a55;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: rgb(121, 45, 2);
+}
+
+.bg-grey{
+    background: #393E46;
+}
+
+.bg-dark-grey{
+    background: #222831;
+}
+
+.me-custom{
+    margin-right: 400px ;
+}
+
+.p-custom{
+    padding-top: 7%;
+}
+
+.shadow-custom{
+    box-shadow: black;
+}
+
