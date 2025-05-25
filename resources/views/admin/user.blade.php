@@ -1,11 +1,10 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('title', 'User')
 
 @section('content')
 
-
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1 class="mt-4">User</h1>
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -25,7 +24,7 @@
             </div>
         </form>
 
-        <table class="table">
+        <table class="table table-striped mt-4">
             <thead>
             <tr>
                 <th scope="col">No</th>
@@ -47,7 +46,8 @@
                     <td>{{ $user->alamat }}</td>
                     <td>{{ $user->created_at->format('d M Y') }}</td>
                     <td>
-                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');">
+                        <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                              onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');">
                             @csrf
                             @method('DELETE')
                             <button
@@ -70,7 +70,8 @@
         </table>
 
         <!-- Pagination Links -->
-        {{ $users->withQueryString()->links() }}
-
+        <div class="d-flex justify-content-center">
+            {{ $users->withQueryString()->links() }}
+        </div>
     </div>
 @endsection

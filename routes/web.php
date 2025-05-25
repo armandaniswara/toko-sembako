@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [ProductsController::class, 'shop']);
 
 Route::get('admin', function () {
     return view('admin');
@@ -18,6 +19,7 @@ Route::get('/home', function () {
     return view('home');
 });
 
+
 Route::get('/profile', function () {
     return view('profile');
 });
@@ -26,6 +28,13 @@ Route::get('/profile', function () {
 Route::get('/checkout', function () {
     return view('checkout');
 });
+
+Route::get('/transaksi', function () {
+    return view('transaksi');
+});
+
+
+
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/dashboard', function () {
@@ -51,9 +60,24 @@ Route::get('/admin', function () {
     return view('admin');
 });
 
+Route::get('/admin', [DashboardController::class, 'index'])
+    ->name('admin.dashboard');
 
 
 
-// User management
+// Admin Page
 Route::get('/user', [UserController::class, 'index'])->name('user.index');
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+
+Route::resource('/products', ProductsController::class);
+Route::resource('/transaction', TransactionController::class);
+
+//Route::get('/dashboard', function () {
+//    return view('admin.dashboard');
+//});
+
+Route::prefix('admin')->group(function () {
+    Route::resource('transactions', TransactionController::class);
+});
+
+Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');

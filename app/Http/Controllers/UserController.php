@@ -25,7 +25,7 @@ class UserController extends Controller
 
         $users = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('user', compact('users', 'search'));
+        return view('admin.user', compact('users', 'search'));
     }
 
     public function destroy(User $user)
