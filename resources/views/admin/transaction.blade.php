@@ -3,7 +3,7 @@
 @section('title', 'Transactions')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1 class="mt-4">Transaksi</h1>
 
         @if(session('success'))
@@ -76,9 +76,9 @@
                 <th>No</th>
                 <th>Tanggal Pemesanan</th>
                 <th>Invoice</th>
-                <th>Status Pembayaran</th>
                 <th>Status Pengiriman</th>
-                <th>Pembayaran</th>
+                <th>Status Pembayaran</th>
+                <th>Total</th>
                 <th>Action</th>
             </tr>
             </thead>

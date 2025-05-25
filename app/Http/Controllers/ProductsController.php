@@ -42,6 +42,13 @@ class ProductsController extends Controller
         return view('admin.products', compact('products'));
     }
 
+    public function shop()
+    {
+        $products = Products::all();
+        return view('home', compact('products'));
+    }
+
+
     public function destroy(Products $product)
     {
         $product->delete();
