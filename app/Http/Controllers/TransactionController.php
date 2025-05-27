@@ -23,7 +23,7 @@ class TransactionController extends Controller
             });
         }
 
-        $transactions = $query->orderBy('created_at', 'desc')->paginate(10);
+        $transactions = $query->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('admin.transaction', compact('transactions', 'search'));
     }

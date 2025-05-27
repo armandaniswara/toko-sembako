@@ -46,8 +46,33 @@
                 <td>{{ $transaction->tanggal_pemesanan->format('d M Y')  }}</td>
                 <td>{{ $transaction->name }}</td>
                 <td>{{ $transaction->invoice }}</td>
-                <td>{{ $transaction->pengiriman }}</td>
-                <td>{{ $transaction->pembayaran }}</td>
+{{--                <td>{{ $transaction->pengiriman }}</td>--}}
+                <td>
+                    @php
+                        $statusPengiriman = $transaction->pengiriman;
+                        $warnaPengiriman = match($statusPengiriman) {
+                            'Terkirim' => 'bg-success',
+                            'Dalam Perjalanan' => 'bg-info',
+                            'Belum Dikirim' => 'bg-warning',
+                            'Dibatalkan' => 'bg-danger',
+                            default => 'bg-secondary',
+                        };
+                    @endphp
+                    <span class="badge {{ $warnaPengiriman }}" style="font-size: 15px;">{{ $statusPengiriman }}</span>
+                </td>
+{{--                <td>{{ $transaction->pembayaran }}</td>--}}
+                <td>
+                    @php
+                        $statusPembayaran = $transaction->pembayaran;
+                        $warnaPembayaran = match($statusPembayaran) {
+                            'Dibayar' => 'bg-light text-dark',
+                            'Belum Dibayar' => 'bg-secondary',
+                            'Gagal' => 'bg-dark',
+                            default => 'bg-dark',
+                        };
+                    @endphp
+                    <span class="badge {{ $warnaPembayaran }}" style="font-size: 15px;">{{ $statusPembayaran }}</span>
+                </td>
                 <td>Rp{{ number_format($transaction->total, 0, ',', '.') }}</td>
                 <td>
                     <a href="#"
