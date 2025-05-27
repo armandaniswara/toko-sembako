@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transactions;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -13,16 +14,15 @@ class DashboardController extends Controller
         $transactions = Transactions::orderBy('created_at', 'desc')
             ->paginate(10);
 
-        // ambil statistik kartu (contoh)
-//        $totalUsers       = User::count();
-//        $totalTransactions= Transactions::count();
-//        $totalRevenue     = Transactions::sum('pembayaran'); // atau field revenue
+        $totalUniqueCustomers = Transactions::distinct('name')->count();
+        $totalTransactions= Transactions::count();
+        $totalRevenue     = Transactions::sum('total'); // atau field revenue
 
         return view('admin.dashboard', compact(
             'transactions',
-//            'totalUsers',
-//            'totalTransactions',
-//            'totalRevenue'
+            'totalUniqueCustomers',
+            'totalTransactions',
+            'totalRevenue'
         ));
     }
 }

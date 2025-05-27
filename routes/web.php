@@ -62,6 +62,10 @@ Route::get('/admin', function () {
     return view('admin');
 });
 
+Route::get('/detail', function () {
+    return view('admin.detail');
+});
+
 Route::get('/admin', [DashboardController::class, 'index'])
     ->name('admin.dashboard');
 
@@ -78,9 +82,17 @@ Route::resource('/transaction', TransactionController::class);
 //    return view('admin.dashboard');
 //});
 
-Route::prefix('admin')->group(function () {
-    Route::resource('transactions', TransactionController::class);
-});
+
+//Route::prefix('/transaction')->group(function () {
+//    Route::resource('transactions', TransactionController::class);
+//});
+
+Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index');
+Route::post('/transaction', [TransactionController::class, 'store'])->name('transaction.store');
+Route::put('/transaction/{id}', [TransactionController::class, 'update'])->name('transaction.update');
+Route::delete('/transaction', [TransactionController::class, 'destroy'])->name('transaction.destroy');
+
+
 
 Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');
 

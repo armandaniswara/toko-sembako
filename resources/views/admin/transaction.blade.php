@@ -26,78 +26,70 @@
 
     </div>
 
-{{--    modal    --}}
-    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addProductModalLabel">Konfirmasi Pembayaran</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="#" id="editTransactionForm">
+    <table class="table table-striped mt-4">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Tanggal Pemesanan</th>
+            <th>Nama</th>
+            <th>Invoice</th>
+            <th>Status Pengiriman</th>
+            <th>Status Pembayaran</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @forelse($transactions as $index => $transaction)
+            <tr>
+                <td>{{ $transactions->firstItem() + $index }}</td>
+                <td>{{ $transaction->tanggal_pemesanan->format('d M Y')  }}</td>
+                <td>{{ $transaction->name }}</td>
+                <td>{{ $transaction->invoice }}</td>
+                <td>{{ $transaction->pengiriman }}</td>
+                <td>{{ $transaction->pembayaran }}</td>
+                <td>Rp{{ number_format($transaction->total, 0, ',', '.') }}</td>
+                <td>
+                    <a href="#"
+                       class="btn btn-warning btn-sm"
+                       data-bs-toggle="modal"
+                       data-bs-target="#editTransactionModal"
+                       data-pengiriman="{{ $transaction->pengiriman }}"
+                       data-pembayaran="{{ $transaction->pembayaran }}"
+                    >
+                        Edit
+                    </a>
+
+                    <form action="{{ route('products.destroy', $transaction->id) }}" method="POST" class="d-inline">
                         @csrf
-                        @method('PUT')
-
-                        <input type="hidden" name="id" id="edit-id">
-                        <p>Status Pengiriman</p>
-
-                        <select name="pengiriman" id="edit-pengiriman" class="form-control my-1" required>
-                            <option value="">-- Pilih Status Pengiriman --</option>
-                            <option value="Belum Dikirim" {{ old('status_pengiriman') == 'Belum Dikirim' ? 'selected' : '' }}>Belum Dikirim</option>
-                            <option value="Dalam Perjalanan" {{ old('status_pengiriman') == 'Dalam Perjalanan' ? 'selected' : '' }}>Dalam Perjalanan</option>
-                            <option value="Terkirim" {{ old('status_pengiriman') == 'Terkirim' ? 'selected' : '' }}>Terkirim</option>
-                            <option value="Dibatalkan" {{ old('status_pengiriman') == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
-                        </select>
-
-                        <p>Status Pembayaran</p>
-
-                        <select name="pembayaran" id="edit-pembayaran" class="form-control my-1" required>
-                            <option value="">-- Pilih Status Pembayaran --</option>
-                            <option value="Belum Dibayar" {{ old('status_pembayaran') == 'Belum Dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
-                            <option value="Dibayar" {{ old('status_pembayaran') == 'Dibayar' ? 'selected' : '' }}>Dibayar</option>
-                            <option value="Gagal" {{ old('status_pembayaran') == 'Gagal' ? 'selected' : '' }}>Gagal</option>
-                        </select>
-
-                        <button type="submit" class="btn btn-primary">Ubah</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Yakin ingin menghapus produk ini?')">Delete
+                        </button>
                     </form>
-                </div>
+                    <a href="#"
+                       class="btn btn-success btn-sm">Detail</a>
+                </td>
+            </tr>
+        @empty
+            <div class="alert alert-info mt-4">
+                Tidak ada produk ditemukan.
             </div>
-        </div>
+        @endforelse
+        </tbody>
+    </table>
+
+    <!-- Edit Product Modal -->
+    @foreach($transactions as $index => $transaction)
+        @include('admin.components.edit-transactions-modal', ['transaction' => $transaction])
+    @endforeach
+    {{-- Pagination --}}
+    <div class="d-flex justify-content-center">
+        {{ $transactions->links() }}
     </div>
 
 
-    @if($transactions->count())
-        <table class="table table-striped mt-4">
-            <thead>
-            <tr>
-                <th>No</th>
-                <th>Tanggal Pemesanan</th>
-                <th>Invoice</th>
-                <th>Status Pengiriman</th>
-                <th>Status Pembayaran</th>
-                <th>Total</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($transactions as $index => $transaction)
-                @include('admin.components.edit-transactions-modal', ['transaction' => $transaction])
-            @endforeach
-            </tbody>
-        </table>
 
-        {{-- Pagination --}}
-        <div class="d-flex justify-content-center">
-            {{ $transactions->links() }}
-        </div>
-    @else
-        <div class="alert alert-info mt-4">
-            Tidak ada produk ditemukan.
-        </div>
-    @endif
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -110,12 +102,22 @@
                     const pengiriman = button.getAttribute('data-pengiriman');
                     const pembayaran = button.getAttribute('data-pembayaran');
 
-                    const form = document.getElementById('editTransactionForm');
-                    form.action = `/admin/transactions/${id}`;
+
+                    // // Isi input modal dengan data
+                    // editModal.querySelector('#edit-id').value = id;
+                    // editModal.querySelector('#edit-code').value = code;
+                    // editModal.querySelector('#edit-name').value = name;
+                    //
+                    // // Set form action URL
+                    // const form = document.getElementById('editParameterForm');
+
 
                     document.getElementById('edit-id').value = id;
                     document.getElementById('edit-pengiriman').value = pengiriman;
                     document.getElementById('edit-pembayaran').value = pembayaran;
+
+                    const form = document.getElementById('editTransactionForm');
+                    form.action = `/transactions/${id}`;
                 });
             });
         </script>
