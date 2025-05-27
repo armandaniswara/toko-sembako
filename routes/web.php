@@ -96,9 +96,9 @@ Route::get('/transaction', [TransactionController::class, 'index'])->name('trans
 Route::post('/transaction', [TransactionController::class, 'store'])->name('transaction.store');
 Route::put('/transaction/{id}', [TransactionController::class, 'update'])->name('transaction.update');
 
-Route::get('/transaction/detail/{id}', [TransactionController::class, 'detail'])->name('transaction.detail');
-Route::post('/transaction/detail', [TransactionController::class, 'store'])->name('transaction.store');
-Route::put('/transaction/detail/{id}', [TransactionController::class, 'update'])->name('transaction.update');
+Route::get('/transaction/detail/{invoice}', [TransactionController::class, 'detail'])->name('transaction.detail');
+//Route::post('/transaction/detail', [TransactionController::class, 'store'])->name('transaction.store');
+//Route::put('/transaction/detail/{id}', [TransactionController::class, 'update'])->name('transaction.update');
 
 
 Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');

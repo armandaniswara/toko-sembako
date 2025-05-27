@@ -25,6 +25,6 @@ class Transactions extends Model
 
     public function details()
     {
-        return $this->hasMany(TransactionsDetail::class);
+        return $this->hasMany(TransactionsDetail::class, 'invoice', 'invoice');
     }
 }

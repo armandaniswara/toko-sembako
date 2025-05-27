@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Products;
 use App\Models\Transactions;
 use App\Models\TransactionsDetail;
 use Illuminate\Http\Request;
@@ -29,11 +30,23 @@ class TransactionController extends Controller
         return view('admin.transaction', compact('transactions', 'search'));
     }
 
-    public function detail($id)
+    public function detail($invoice)
     {
-        $transaction = Transactions::with('details.product')->findOrFail($id);
+        $transactions = TransactionsDetail::where('invoice', $invoice)->get();
 
-        return view('admin.detail', compact('transaction'));
+        if ($transactions->isEmpty()) {
+            return redirect()->back()->with('error', 'Data transaction_detail tidak ditemukan untuk invoice: ' . $invoice);
+        }
+
+        $skus = $transactions->pluck('sku')->toArray();
+
+        $products = Products::whereIn('sku', $skus)->get();
+
+        if ($products->isEmpty()) {
+            return redirect()->back()->with('error', 'Data produk tidak ditemukan untuk SKU terkait.');
+        }
+
+        return view('admin.detail', compact('transactions', 'products'));
     }
 
 

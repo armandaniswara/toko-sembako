@@ -85,7 +85,7 @@
                     >
                         Edit
                     </a>
-                    <a href="{{ route('transaction.detail', $transaction->id) }}"
+                    <a href="{{ route('transaction.detail', $transaction->invoice) }}"
                        class="btn btn-success btn-sm">
                         Detail
                     </a>
