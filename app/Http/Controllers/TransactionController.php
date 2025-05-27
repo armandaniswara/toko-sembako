@@ -80,17 +80,17 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Transactions $transaction)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'pengiriman' => 'required|string',
-            'pembayaran' => 'required|string',
+        $transaction = Transactions::findOrFail($id);
+
+
+        $validated = $request->validate([
+            'pengiriman' => 'required|string|max:255',
+            'pembayaran' => 'required|string|max:255',
         ]);
 
-        $transaction->update([
-            'pengiriman' => $request->pengiriman,
-            'pembayaran' => $request->pembayaran,
-        ]);
+        $transaction->update($validated);
 
         return redirect()->route('transaction.index')->with('success', 'Status transaksi berhasil diperbarui.');
     }

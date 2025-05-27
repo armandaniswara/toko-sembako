@@ -109,15 +109,6 @@
 
         @push('scripts')
             <script>
-                setTimeout(function () {
-                    const alertSuccess = document.querySelector('.alert-success');
-                    if (alertSuccess) {
-                        alertSuccess.style.transition = 'opacity 0.5s ease';
-                        alertSuccess.style.opacity = '0';
-                        setTimeout(() => alertSuccess.remove(), 500); // Hapus setelah fade out
-                    }
-                }, 3000); // 3000ms = 3 detik
-
                 const editModal = document.getElementById('editProductModal');
                 editModal.addEventListener('show.bs.modal', function (event) {
                     const button = event.relatedTarget;

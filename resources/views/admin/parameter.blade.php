@@ -3,7 +3,7 @@
 @section('title', 'Parameter')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1 class="mt-4">Parameter</h1>
 
         @if(session('success'))
@@ -88,15 +88,6 @@
 {{--    </div>--}}
         @push('scripts')
             <script>
-                setTimeout(function () {
-                    const alertSuccess = document.querySelector('.alert-success');
-                    if (alertSuccess) {
-                        alertSuccess.style.transition = 'opacity 0.5s ease';
-                        alertSuccess.style.opacity = '0';
-                        setTimeout(() => alertSuccess.remove(), 500); // Hapus setelah fade out
-                    }
-                }, 3000); // 3000ms = 3 detik
-
                 const editModal = document.getElementById('editParameterModal');
                 editModal.addEventListener('show.bs.modal', function (event) {
                     const button = event.relatedTarget;

@@ -54,6 +54,7 @@
                        class="btn btn-warning btn-sm"
                        data-bs-toggle="modal"
                        data-bs-target="#editTransactionModal"
+                       data-id="{{ $transaction->id }}"
                        data-pengiriman="{{ $transaction->pengiriman }}"
                        data-pembayaran="{{ $transaction->pembayaran }}"
                     >
@@ -92,34 +93,22 @@
 
     @push('scripts')
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const editModal = document.getElementById('addProductModal');
-                editModal.addEventListener('show.bs.modal', function (event) {
-                    const button = event.relatedTarget;
+            const editModal = document.getElementById('editTransactionModal');
+            editModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
 
                     const id = button.getAttribute('data-id');
-                    const status = button.getAttribute('data-status');
                     const pengiriman = button.getAttribute('data-pengiriman');
                     const pembayaran = button.getAttribute('data-pembayaran');
 
-
-                    // // Isi input modal dengan data
-                    // editModal.querySelector('#edit-id').value = id;
-                    // editModal.querySelector('#edit-code').value = code;
-                    // editModal.querySelector('#edit-name').value = name;
-                    //
-                    // // Set form action URL
-                    // const form = document.getElementById('editParameterForm');
-
-
-                    document.getElementById('edit-id').value = id;
-                    document.getElementById('edit-pengiriman').value = pengiriman;
-                    document.getElementById('edit-pembayaran').value = pembayaran;
+                    // Isi input modal dengan data
+                    editModal.querySelector('#edit-id').value = id;
+                    editModal.querySelector('#edit-pengiriman').value = pengiriman;
+                    editModal.querySelector('#edit-pembayaran').value = pembayaran;
 
                     const form = document.getElementById('editTransactionForm');
-                    form.action = `/transactions/${id}`;
+                    form.action = `/transaction/${id}`;
                 });
-            });
         </script>
     @endpush
 @endsection
