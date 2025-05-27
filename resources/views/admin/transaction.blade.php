@@ -60,16 +60,10 @@
                     >
                         Edit
                     </a>
-
-                    <form action="{{ route('products.destroy', $transaction->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Yakin ingin menghapus produk ini?')">Delete
-                        </button>
-                    </form>
-                    <a href="#"
-                       class="btn btn-success btn-sm">Detail</a>
+                    <a href="{{ route('transaction.detail', $transaction->id) }}"
+                       class="btn btn-success btn-sm">
+                        Detail
+                    </a>
                 </td>
             </tr>
         @empty
@@ -97,18 +91,18 @@
             editModal.addEventListener('show.bs.modal', function (event) {
                 const button = event.relatedTarget;
 
-                    const id = button.getAttribute('data-id');
-                    const pengiriman = button.getAttribute('data-pengiriman');
-                    const pembayaran = button.getAttribute('data-pembayaran');
+                const id = button.getAttribute('data-id');
+                const pengiriman = button.getAttribute('data-pengiriman');
+                const pembayaran = button.getAttribute('data-pembayaran');
 
-                    // Isi input modal dengan data
-                    editModal.querySelector('#edit-id').value = id;
-                    editModal.querySelector('#edit-pengiriman').value = pengiriman;
-                    editModal.querySelector('#edit-pembayaran').value = pembayaran;
+                // Isi input modal dengan data
+                editModal.querySelector('#edit-id').value = id;
+                editModal.querySelector('#edit-pengiriman').value = pengiriman;
+                editModal.querySelector('#edit-pembayaran').value = pembayaran;
 
-                    const form = document.getElementById('editTransactionForm');
-                    form.action = `/transaction/${id}`;
-                });
+                const form = document.getElementById('editTransactionForm');
+                form.action = `/transaction/${id}`;
+            });
         </script>
     @endpush
 @endsection

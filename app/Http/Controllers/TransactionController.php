@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transactions;
+use App\Models\TransactionsDetail;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -23,9 +24,26 @@ class TransactionController extends Controller
             });
         }
 
-        $transactions = $query->orderBy('created_at', 'desc')->paginate(10);
+        $transactions = $query->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('admin.transaction', compact('transactions', 'search'));
+    }
+
+    public function detail( $id,)
+    {
+        $transactions = Transactions::findOrFail($id);
+
+        $transactions_detail = TransactionsDetail::where('transaction_id', $id)->get();
+
+//        if ($search) {
+//            $query->where(function($q) use ($search) {
+//                $q->where('invoice', 'like', "%{$search}%");
+//            });
+//        }
+
+//        $transactions = $query->orderBy('updated_at', 'desc')->paginate(10);
+
+        return view('admin.detail', compact('transactions'));
     }
 
 
@@ -95,13 +113,5 @@ class TransactionController extends Controller
         return redirect()->route('transaction.index')->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Transactions $transaction)
-    {
-        $transaction->delete();
-        return redirect()->route('transaction.index')->with('success', '...');
 
-    }
 }

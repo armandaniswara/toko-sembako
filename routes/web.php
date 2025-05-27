@@ -35,6 +35,10 @@ Route::get('/transaksi', function () {
     return view('transaksi');
 });
 
+Route::get('/detail', function () {
+    return view('detail');
+});
+
 
 
 
@@ -66,6 +70,7 @@ Route::get('/detail', function () {
     return view('admin.detail');
 });
 
+
 Route::get('/admin', [DashboardController::class, 'index'])
     ->name('admin.dashboard');
 
@@ -90,8 +95,10 @@ Route::resource('/transaction', TransactionController::class);
 Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index');
 Route::post('/transaction', [TransactionController::class, 'store'])->name('transaction.store');
 Route::put('/transaction/{id}', [TransactionController::class, 'update'])->name('transaction.update');
-Route::delete('/transaction', [TransactionController::class, 'destroy'])->name('transaction.destroy');
 
+Route::get('/transaction/detail/{id}', [TransactionController::class, 'detail'])->name('transaction.detail');
+Route::post('/transaction/detail', [TransactionController::class, 'store'])->name('transaction.store');
+Route::put('/transaction/detail/{id}', [TransactionController::class, 'update'])->name('transaction.update');
 
 
 Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');

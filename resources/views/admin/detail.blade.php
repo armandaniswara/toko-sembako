@@ -62,18 +62,22 @@
     </div>
     @push('scripts')
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const editModal = document.getElementById('addProductModal');
-                editModal.addEventListener('show.bs.modal', function (event) {
-                    const button = event.relatedTarget;
-                    const pengiriman = button.getAttribute('data-pengiriman');
-                    const pembayaran = button.getAttribute('data-pembayaran');
+            const editModal = document.getElementById('editTransactionModal');
+            editModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
 
-                    document.getElementById('edit-pengiriman').value = pengiriman;
-                    document.getElementById('edit-pembayaran').value = pembayaran;
-                });
+                const id = button.getAttribute('data-id');
+                const pengiriman = button.getAttribute('data-pengiriman');
+                const pembayaran = button.getAttribute('data-pembayaran');
+
+                // Isi input modal dengan data
+                editModal.querySelector('#edit-id').value = id;
+                editModal.querySelector('#edit-pengiriman').value = pengiriman;
+                editModal.querySelector('#edit-pembayaran').value = pembayaran;
+
+                const form = document.getElementById('editTransactionForm');
+                form.action = `/detail/${id}`;
             });
-        </script>
 
     @endpush
 @endsection
