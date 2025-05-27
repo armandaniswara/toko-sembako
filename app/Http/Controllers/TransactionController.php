@@ -29,21 +29,11 @@ class TransactionController extends Controller
         return view('admin.transaction', compact('transactions', 'search'));
     }
 
-    public function detail( $id,)
+    public function detail($id)
     {
-        $transactions = Transactions::findOrFail($id);
+        $transaction = Transactions::with('details.product')->findOrFail($id);
 
-        $transactions_detail = TransactionsDetail::where('transaction_id', $id)->get();
-
-//        if ($search) {
-//            $query->where(function($q) use ($search) {
-//                $q->where('invoice', 'like', "%{$search}%");
-//            });
-//        }
-
-//        $transactions = $query->orderBy('updated_at', 'desc')->paginate(10);
-
-        return view('admin.detail', compact('transactions'));
+        return view('admin.detail', compact('transaction'));
     }
 
 
