@@ -14,38 +14,33 @@
         <div class="container bg-white d-grid gap-3 p-4" style="height: auto; width: 95%">
             @forelse ($transactions as $transaction)
                 <div class="d-flex gap-4">
-                    <div class="flex-fill bd-highlight gap-2">
-                        <div class="">
-                            <p class="fw-bold">Tanggal Pemesanan</p>
+                    <div class="flex-fill bd-highlight">
+                        <div class="mb-4">
+                            <p class="fw-bold mb-0">Tanggal Pemesanan</p>
                             <input type="text" class="form-control bg-light" id="qty"
                                    value="{{ $transaction->transaction->tanggal_pemesanan->format('d M Y') }}" readonly>
                         </div>
-                        <div class="">
-                            <p class="fw-bold">Nama</p>
+                        <div class="mb-4">
+                            <p class="fw-bold mb-0">Nama</p>
                             <input type="text" class="form-control bg-light" id="qty"
                                    value="{{ $transaction->transaction->name }}" readonly>
                         </div>
-                        <div class="">
-                            <p class="fw-bold">Status Pengiriman</p>
+                        <div class="mb-2">
+                            <p class="fw-bold mb-0">Status Pengiriman</p>
                             <input type="text" class="form-control bg-light" id="qty"
                                    value="{{ $transaction->transaction->pengiriman }}" readonly>
                         </div>
                     </div>
-                    <div class="flex-fill bd-highlight gap-2">
-                        <div class="">
-                            <p class="fw-bold">Status Pembayaran</p>
+                    <div class="flex-fill bd-highlight">
+                        <div class="mb-4">
+                            <p class="fw-bold mb-0">Status Pembayaran</p>
                             <input type="text" class="form-control bg-light" id="qty"
                                    value="{{ $transaction->transaction->pembayaran }}" readonly>
                         </div>
-                        <div class="">
-                            <p class="fw-bold">Invoice</p>
+                        <div class="mb-4">
+                            <p class="fw-bold mb-0">Invoice</p>
                             <input type="text" class="form-control bg-light" id="qty"
                                    value="{{ $transaction->invoice }}" readonly>
-                        </div>
-                        <div class="">
-                            <p class="fw-bold">Total</p>
-                            <input type="text" class="form-control bg-light" id="qty"
-                                   value="Rp{{ number_format($transaction->total, 2, ',', '.') }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -74,6 +69,9 @@
                         <td>Rp{{ number_format($jumlah, 2) }}</td>
                     </tr>
                     </tbody>
+                    <tfoot> <tr>
+                        <td colspan="3"></td> <td class="text-end fw-bold">Total:</td> <td class="text-start">Rp100,000.00</td> </tr>
+                    </tfoot>
                 </table>
             @empty
                 <p> not found </p>

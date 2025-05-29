@@ -3,7 +3,7 @@
     <p class="text-dark">"Belanja praktis, harga ekonomis! Semua kebutuhan anda ada di sini!"</p>
     <div class="roq">
         @foreach ($products as $product)
-            <div class="belanja-card col-lg-24p mb-4" style="flex: 0 0 20%; max-width: 20%;">
+            <div class="belanja-card col-lg-24p mb-4 " style="flex: 0 0 20%; max-width: 20%;">
                 @if($product->image)
                     <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->name }}"
                          class="belanja-card-img">
@@ -17,6 +17,7 @@
                     <input type="number" class="form-control text-center" value="1" min="0" aria-label="Jumlah">
                     <button class="btn btn-outline-secondary" type="button" id="button-plus">+</button>
                 </div>
+                <button class="my-2 btn ff-popins w-50" style="background-color: #b98a55; color: white;">Beli</button>
             </div>
         @endforeach
 
