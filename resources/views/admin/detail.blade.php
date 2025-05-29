@@ -5,31 +5,37 @@
 @section('content')
     <div class="d-grid gap-5  mt-3" id="addProductModal">
         <h3 class="fw-bold mt-4">Data Master Transaction</h3>
+
+        @php
+            $jumlah = 0;
+            $totalPrice = 0;
+        @endphp
+
         <div class="container bg-white d-grid gap-3 p-4" style="height: auto; width: 95%">
-            @forelse($transactions as $item => $transaction)
+            @forelse ($transactions as $transaction)
                 <div class="d-flex gap-4">
                     <div class="flex-fill bd-highlight gap-2">
                         <div class="">
                             <p class="fw-bold">Tanggal Pemesanan</p>
                             <input type="text" class="form-control bg-light" id="qty"
-                                   value="{{ $transaction->tanggal_pemesanan }}" readonly>
+                                   value="{{ $transaction->transaction->tanggal_pemesanan->format('d M Y') }}" readonly>
                         </div>
                         <div class="">
                             <p class="fw-bold">Nama</p>
                             <input type="text" class="form-control bg-light" id="qty"
-                                   value="{{ $transaction->name }}" readonly>
+                                   value="{{ $transaction->transaction->name }}" readonly>
                         </div>
                         <div class="">
                             <p class="fw-bold">Status Pengiriman</p>
                             <input type="text" class="form-control bg-light" id="qty"
-                                   value="{{ $transaction->pengiriman }}" readonly>
+                                   value="{{ $transaction->transaction->pengiriman }}" readonly>
                         </div>
                     </div>
                     <div class="flex-fill bd-highlight gap-2">
                         <div class="">
                             <p class="fw-bold">Status Pembayaran</p>
                             <input type="text" class="form-control bg-light" id="qty"
-                                   value="{{ $transaction->pembayaran }}" readonly>
+                                   value="{{ $transaction->transaction->pembayaran }}" readonly>
                         </div>
                         <div class="">
                             <p class="fw-bold">Invoice</p>
@@ -43,34 +49,36 @@
                         </div>
                     </div>
                 </div>
+
+                @php
+                    $jumlah = ($transaction->product->price * $transaction->qty);
+                    $totalPrice = 0;
+                @endphp
+
+                <table class="table table-striped mt-4">
+                    <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Nama Produk</th>
+                        <th>Harga Produk</th>
+                        <th>QTY</th>
+                        <th>Jumlah</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ $transaction->sku }}</td>
+                        <td>{{ $transaction->product->name }}</td>
+                        <td>{{ $transaction->product->price }}</td>
+                        <td>{{ $transaction->qty }}</td>
+                        <td>Rp{{ number_format($jumlah, 2) }}</td>
+                    </tr>
+                    </tbody>
+                </table>
             @empty
                 <p> not found </p>
             @endforelse
-            <table class="table table-striped mt-4">
-                <thead>
-                <tr>
-                    <th>Quantity</th>
-                    <th>SKU</th>
-                    <th>Nama</th>
-                    <th>Harga Produk</th>
-                </tr>
-                </thead>
-                <tbody>
-                @forelse($details as $item => $detail)
-                    <tr>
-                        <td>{{ $detail->qty }}</td>
-                        <td>{{ $detail->sku }}</td>
-                        @empty
-                            <p> not found </p>
-                        @endforelse
-                        @forelse($products as $item => $product)
-                            <td>{{ $product->name }}</td>
-                            <td>RP{{ number_format($product->price, 2, ",", ".")  }}</td>
-                        @empty
-                            <p> not found </p>
-                @endforelse
-                </tbody>
-            </table>
+
             <div class="d-flex gap-1">
                 <button type="submit" class="btn btn-primary">Print</button>
                 <button href="/transaction" type="submit" class="btn btn-secondary">Kembali</button>

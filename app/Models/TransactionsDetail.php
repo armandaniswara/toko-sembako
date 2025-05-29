@@ -18,13 +18,13 @@ class TransactionsDetail extends Model
         'total',
     ];
 
-    public function transaction()
-    {
-        return $this->hasMany(TransactionsDetail::class, 'invoice', 'invoice');
-    }
-
     public function product()
     {
         return $this->belongsTo(Products::class, 'sku', 'sku');
+    }
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transactions::class, 'invoice', 'invoice');
     }
 }

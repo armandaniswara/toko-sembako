@@ -32,27 +32,16 @@ class TransactionController extends Controller
 
     public function detail($invoice)
     {
-        $transactions = Transactions::where('invoice', $invoice)->get();
+        $transactions = TransactionsDetail::with(['product', 'transaction'])
+            ->where('invoice', $invoice)
+            ->get();
 
+        // Jika data tidak ditemukan, redirect kembali dengan pesan error
         if ($transactions->isEmpty()) {
             return redirect()->back()->with('error', 'Data transaction_detail tidak ditemukan untuk invoice: ' . $invoice);
         }
 
-        $details = TransactionsDetail::where('invoice', $invoice)->get();
-
-        if ($details->isEmpty()) {
-            return redirect()->back()->with('error', 'Data transaction_detail tidak ditemukan untuk invoice: ' . $invoice);
-        }
-
-        $skus = $details->pluck('sku')->toArray();
-
-        $products = Products::whereIn('sku', $skus)->get();
-
-        if ($products->isEmpty()) {
-            return redirect()->back()->with('error', 'Data produk tidak ditemukan untuk SKU terkait.');
-        }
-
-        return view('admin.detail', compact('transactions', 'details', 'products'));
+        return view('admin.detail', compact('transactions'));
     }
 
 
