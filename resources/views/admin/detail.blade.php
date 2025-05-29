@@ -4,102 +4,77 @@
 
 @section('content')
     <div class="d-grid gap-5  mt-3" id="addProductModal">
-        <p class="fs-5 fw-bold mt-4">Data Master Transaction</p>
-        <div class="container bg-white d-flex align-items-center" style="height: 100px; width: 95%">
-            <i class="bi bi-arrow-left-short fs-5"></i>
-            <a href="/admin" type="button" class="btn btn-outline-info btn-lg">Kembali</a>
-        </div>
-        <div class="container bg-white d-grid gap-3" style="height: auto; width: 95%">
-            @forelse($transactions as $detail => $transaction)
-                <div class="">
-                    <p class="fw-bold">Invoice</p>
-                    <input type="text" class="form-control bg-light" id="invoice" value="{{ $transaction->invoice }}"
-                           readonly>
+        <h3 class="fw-bold mt-4">Data Master Transaction</h3>
+        <div class="container bg-white d-grid gap-3 p-4" style="height: auto; width: 95%">
+            @forelse($transactions as $item => $transaction)
+                <div class="d-flex gap-4">
+                    <div class="flex-fill bd-highlight gap-2">
+                        <div class="">
+                            <p class="fw-bold">Tanggal Pemesanan</p>
+                            <input type="text" class="form-control bg-light" id="qty"
+                                   value="{{ $transaction->tanggal_pemesanan }}" readonly>
+                        </div>
+                        <div class="">
+                            <p class="fw-bold">Nama</p>
+                            <input type="text" class="form-control bg-light" id="qty"
+                                   value="{{ $transaction->name }}" readonly>
+                        </div>
+                        <div class="">
+                            <p class="fw-bold">Status Pengiriman</p>
+                            <input type="text" class="form-control bg-light" id="qty"
+                                   value="{{ $transaction->pengiriman }}" readonly>
+                        </div>
+                    </div>
+                    <div class="flex-fill bd-highlight gap-2">
+                        <div class="">
+                            <p class="fw-bold">Status Pembayaran</p>
+                            <input type="text" class="form-control bg-light" id="qty"
+                                   value="{{ $transaction->pembayaran }}" readonly>
+                        </div>
+                        <div class="">
+                            <p class="fw-bold">Invoice</p>
+                            <input type="text" class="form-control bg-light" id="qty"
+                                   value="{{ $transaction->invoice }}" readonly>
+                        </div>
+                        <div class="">
+                            <p class="fw-bold">Total</p>
+                            <input type="text" class="form-control bg-light" id="qty"
+                                   value="Rp{{ number_format($transaction->total, 2, ',', '.') }}" readonly>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="">
-                    <p class="fw-bold">SKU</p>
-                    <input type="text" class="form-control bg-light" id="sku" value="{{ $transaction->sku }}" readonly>
-                </div>
-
             @empty
                 <p> not found </p>
             @endforelse
-
-            @forelse($products as $detail => $product)
-                <div class="">
-                    <p class="fw-bold">Product Name</p>
-                    <input type="text" class="form-control bg-light" id="product-name" value="{{ $product->name }}" readonly>
-                </div>
-            @empty
-                <p> not found </p>
-            @endforelse
-
-
-
-
-
-
-            {{--            @foreach ($transactions as $transaction)--}}
-            {{--            @forelse($transactions as $detail => $transaction)--}}
-            {{--                <div class="">--}}
-            {{--                    <p class="fw-bold">Invoice</p>--}}
-            {{--                    <input type="text" class="form-control bg-light" id="invoice" value="{{ $transaction->invoice }}">--}}
-            {{--                </div>--}}
-            {{--            @empty--}}
-            {{--                    <div class="">--}}
-            {{--                        <p class="fw-bold">Invoice</p>--}}
-            {{--                        <input type="text" class="form-control bg-light" id="invoice" value="">--}}
-            {{--                    </div>--}}
-            {{--            @endforelse--}}
-            {{--            @foreach ($transactions as $transaction)--}}
-            {{--                <p> {{ $transaction->invoice }} </p>--}}
-
-            {{--            @endforeach--}}
-            {{--            <div class="">--}}
-            {{--                <p class="fw-bold">Nama</p>--}}
-            {{--                <input type="text" class="form-control bg-light" id="name" readonly>--}}
-            {{--            </div>--}}
-            {{--            <div class="">--}}
-            {{--                <p class="fw-bold">Total</p>--}}
-            {{--                <input type="text" class="form-control bg-light" id="total" readonly>--}}
-            {{--            </div>--}}
-            {{--            <form method="POST" action="#" id="editTransactionForm">--}}
-            {{--                <div class=""></div>--}}
-            {{--                @csrf--}}
-            {{--                @method('PUT')--}}
-            {{--                <p class="fw-bold">Status Pengiriman</p>--}}
-            {{--                <select name="pengiriman" id="edit-pengiriman" class="form-control my-1" required>--}}
-            {{--                    <option value="">-- Pilih Status Pengiriman --</option>--}}
-            {{--                    <option value="Belum Dikirim" {{ old('status_pengiriman') == 'Belum Dikirim' ? 'selected' : '' }}>--}}
-            {{--                        Belum Dikirim--}}
-            {{--                    </option>--}}
-            {{--                    <option--}}
-            {{--                        value="Dalam Perjalanan" {{ old('status_pengiriman') == 'Dalam Perjalanan' ? 'selected' : '' }}>--}}
-            {{--                        Dalam Perjalanan--}}
-            {{--                    </option>--}}
-            {{--                    <option value="Terkirim" {{ old('status_pengiriman') == 'Terkirim' ? 'selected' : '' }}>Terkirim--}}
-            {{--                    </option>--}}
-            {{--                    <option value="Dibatalkan" {{ old('status_pengiriman') == 'Dibatalkan' ? 'selected' : '' }}>--}}
-            {{--                        Dibatalkan--}}
-            {{--                    </option>--}}
-            {{--                </select>--}}
-            {{--                <p>Klik Tombol Ubah Untuk Menyimpan Perubahan Status Pengiriman</p>--}}
-            {{--            </form>--}}
-            {{--            <div class="">--}}
-            {{--                <p class="fw-bold">Status Pembayaran</p>--}}
-            {{--                <select name="pembayaran" id="edit-pembayaran" class="form-control my-1" required>--}}
-            {{--                    <option value="">-- Pilih Status Pembayaran --</option>--}}
-            {{--                    <option value="Belum Dibayar" {{ old('status_pembayaran') == 'Belum Dibayar' ? 'selected' : '' }}>--}}
-            {{--                        Belum Dibayar--}}
-            {{--                    </option>--}}
-            {{--                    <option value="Dibayar" {{ old('status_pembayaran') == 'Dibayar' ? 'selected' : '' }}>Dibayar--}}
-            {{--                    </option>--}}
-            {{--                    <option value="Gagal" {{ old('status_pembayaran') == 'Gagal' ? 'selected' : '' }}>Gagal</option>--}}
-            {{--                </select>--}}
-            {{--                <p>Klik Tombol Ubah Untuk Menyimpan Perubahan Status pembayaran</p>--}}
-            {{--            </div>--}}
-            <button type="submit" class="btn btn-primary">Ubah</button>
+            <table class="table table-striped mt-4">
+                <thead>
+                <tr>
+                    <th>Quantity</th>
+                    <th>SKU</th>
+                    <th>Nama</th>
+                    <th>Harga Produk</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse($details as $item => $detail)
+                    <tr>
+                        <td>{{ $detail->qty }}</td>
+                        <td>{{ $detail->sku }}</td>
+                        @empty
+                            <p> not found </p>
+                        @endforelse
+                        @forelse($products as $item => $product)
+                            <td>{{ $product->name }}</td>
+                            <td>RP{{ number_format($product->price, 2, ",", ".")  }}</td>
+                        @empty
+                            <p> not found </p>
+                @endforelse
+                </tbody>
+            </table>
+            <div class="d-flex gap-1">
+                <button type="submit" class="btn btn-primary">Print</button>
+                <button href="/transaction" type="submit" class="btn btn-secondary">Kembali</button>
+            </div>
         </div>
     </div>
     {{--    @push('scripts')--}}

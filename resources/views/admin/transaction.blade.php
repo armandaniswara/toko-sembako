@@ -73,7 +73,7 @@
                     @endphp
                     <span class="badge {{ $warnaPembayaran }}" style="font-size: 15px;">{{ $statusPembayaran }}</span>
                 </td>
-                <td>Rp{{ number_format($transaction->total, 0, ',', '.') }}</td>
+                <td>Rp{{ number_format($transaction->total, 2, ',', '.') }}</td>
                 <td>
                     <a href="#"
                        class="btn btn-warning btn-sm"
