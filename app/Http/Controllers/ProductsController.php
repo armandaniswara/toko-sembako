@@ -50,13 +50,8 @@ class ProductsController extends Controller
 
     public function detail($id)
     {
-//        $products = Products::
-        $products = Products::query()
-            ->when($id, function ($query, $id) {
-                $query->where('id', '=',  $id);
-            }); // agar parameter ?search= tetap ada saat pagination
-
-        return view('product-detail', compact('products'));
+        $product = Products::where('id', $id)->firstOrFail();
+        return view('product-detail', compact('product'));
     }
 
 

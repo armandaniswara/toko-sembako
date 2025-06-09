@@ -44,6 +44,7 @@
             <label class="ms-5" >Aksi</label>
         </div>
     </div>
+    @foreach ($carts as $cart)
     <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
             <div class=" d-flex">
                 <input class="" type="checkbox" value="" id="defaultCheck1">
@@ -51,7 +52,7 @@
                     Produk
                 </label>
             </div>
-            <label class="ms-5">Harga Satuan</label>
+            <label class="ms-5">{{ $cart->cart->price }}</label>
             <div class="d-flex align-items-center">
                 <label class="">Kuantitas</label>
                 <label class="ms-5">Total Harga</label>
@@ -59,34 +60,35 @@
             </div>
 
     </div>
-    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
-        <div class=" d-flex">
-            <input class="" type="checkbox" value="" id="defaultCheck1">
-            <label class="ms-4" for="defaultCheck1">
-                Produk
-            </label>
-        </div>
-        <label class="ms-5">Harga Satuan</label>
-        <div class="d-flex align-items-center">
-            <label class="">Kuantitas</label>
-            <label class="ms-5">Total Harga</label>
-            <label class="ms-5" >Hapus</label>
-        </div>
-    </div>
-    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
-        <div class=" d-flex">
-            <input class="" type="checkbox" value="" id="defaultCheck1">
-            <label class="ms-4" for="defaultCheck1">
-                Produk
-            </label>
-        </div>
-        <label class="ms-5">Harga Satuan</label>
-        <div class="d-flex align-items-center">
-            <label class="">Kuantitas</label>
-            <label class="ms-5">Total Harga</label>
-            <label class="ms-5" >Hapus</label>
-        </div>
-    </div>
+    @endforeach
+{{--    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">--}}
+{{--        <div class=" d-flex">--}}
+{{--            <input class="" type="checkbox" value="" id="defaultCheck1">--}}
+{{--            <label class="ms-4" for="defaultCheck1">--}}
+{{--                Produk--}}
+{{--            </label>--}}
+{{--        </div>--}}
+{{--        <label class="ms-5">Harga Satuan</label>--}}
+{{--        <div class="d-flex align-items-center">--}}
+{{--            <label class="">Kuantitas</label>--}}
+{{--            <label class="ms-5">Total Harga</label>--}}
+{{--            <label class="ms-5" >Hapus</label>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">--}}
+{{--        <div class=" d-flex">--}}
+{{--            <input class="" type="checkbox" value="" id="defaultCheck1">--}}
+{{--            <label class="ms-4" for="defaultCheck1">--}}
+{{--                Produk--}}
+{{--            </label>--}}
+{{--        </div>--}}
+{{--        <label class="ms-5">Harga Satuan</label>--}}
+{{--        <div class="d-flex align-items-center">--}}
+{{--            <label class="">Kuantitas</label>--}}
+{{--            <label class="ms-5">Total Harga</label>--}}
+{{--            <label class="ms-5" >Hapus</label>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 </body>
 <div class="position-fixed d-flex align-items-center bg-white rounded-1 shadow justify-content-between bottom-0 start-50 translate-middle-x mb-3" style="width: 85%; height: 50px;">
     <div class=" d-flex">

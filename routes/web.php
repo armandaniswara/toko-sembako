@@ -7,7 +7,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ParameterController;
 use \App\Http\Controllers\PaymentController;
-use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', [ProductsController::class, 'shop']);
@@ -31,6 +31,8 @@ Route::get('/checkout', function () {
     return view('checkout');
 });
 
+Route::get('/checkout', [CartController::class, 'detail'])->name('checkout');
+
 Route::get('/transaksi', function () {
     return view('transaksi');
 });
@@ -38,6 +40,8 @@ Route::get('/transaksi', function () {
 Route::get('/detail', function () {
     return view('detail');
 });
+
+
 
 
 //Route::get('/product-detail', [ProductsController::class, 'detail']);
@@ -68,9 +72,6 @@ Route::get('/admin', function () {
     return view('admin');
 });
 
-Route::get('/detail', function () {
-    return view('admin.detail');
-});
 
 
 Route::get('/admin', [DashboardController::class, 'index'])
