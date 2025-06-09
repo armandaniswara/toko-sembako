@@ -33,6 +33,16 @@
     color: white;
 }
 
+.btn-coffe {
+    color: white;
+    background: #b98a55 ;
+    border: none;
+}
+
+.btn-coffe:hover {
+    background-color: #218838;
+}
+
 .btn-custom:hover {
     background-color: rgb(121, 45, 2);
 }
@@ -57,3 +67,6 @@
     box-shadow: black;
 }
 
+.mb-7 {
+    margin-bottom: 60px !important;
+}

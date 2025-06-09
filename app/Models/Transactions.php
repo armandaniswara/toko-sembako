@@ -22,4 +22,9 @@ class Transactions extends Model
     protected $casts = [
         'tanggal_pemesanan' => 'datetime',
     ];
+
+    public function details()
+    {
+        return $this->hasMany(TransactionsDetail::class, 'invoice', 'invoice');
+    }
 }

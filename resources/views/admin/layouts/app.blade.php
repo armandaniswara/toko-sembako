@@ -29,6 +29,24 @@
         </div>
     </div>
 </div>
+
+{{-- Script global --}}
+<script>
+    // Auto-fade alert success
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            const alertSuccess = document.querySelector('.alert-success');
+            if (alertSuccess) {
+                alertSuccess.style.transition = 'opacity 0.5s ease';
+                alertSuccess.style.opacity = '0';
+                setTimeout(() => alertSuccess.remove(), 500); // Hapus setelah fade out
+            }
+        }, 3000);
+    });
+</script>
+
+{{-- Script dari child page --}}
 @stack('scripts')
+
 </body>
 </html>

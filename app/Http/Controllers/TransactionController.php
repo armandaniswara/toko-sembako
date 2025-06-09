@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Products;
 use App\Models\Transactions;
+use App\Models\TransactionsDetail;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -23,9 +25,23 @@ class TransactionController extends Controller
             });
         }
 
-        $transactions = $query->orderBy('created_at', 'desc')->paginate(10);
+        $transactions = $query->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('admin.transaction', compact('transactions', 'search'));
+    }
+
+    public function detail($invoice)
+    {
+        $transactions = TransactionsDetail::with(['product', 'transaction'])
+            ->where('invoice', $invoice)
+            ->get();
+
+        // Jika data tidak ditemukan, redirect kembali dengan pesan error
+        if ($transactions->isEmpty()) {
+            return redirect()->back()->with('error', 'Data transaction_detail tidak ditemukan untuk invoice: ' . $invoice);
+        }
+
+        return view('admin.detail', compact('transactions'));
     }
 
 
@@ -80,28 +96,20 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Transactions $transaction)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'pengiriman' => 'required|string',
-            'pembayaran' => 'required|string',
+        $transaction = Transactions::findOrFail($id);
+
+
+        $validated = $request->validate([
+            'pengiriman' => 'required|string|max:255',
+            'pembayaran' => 'required|string|max:255',
         ]);
 
-        $transaction->update([
-            'pengiriman' => $request->pengiriman,
-            'pembayaran' => $request->pembayaran,
-        ]);
+        $transaction->update($validated);
 
         return redirect()->route('transaction.index')->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Transactions $transaction)
-    {
-        $transaction->delete();
-        return redirect()->route('transaction.index')->with('success', '...');
 
-    }
 }

@@ -17,4 +17,9 @@ class Products extends Model
         'stock',
         'image',
     ];
+
+    public function details()
+    {
+        return $this->hasMany(TransactionsDetail::class, 'sku', 'sku');
+    }
 }

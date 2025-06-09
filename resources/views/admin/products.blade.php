@@ -60,7 +60,8 @@
                     <td>{{ $product->sku }}</td>
                     <td>{{ $product->name }}</td>
                     <td>Rp{{ number_format($product->price, 0, ',', '.') }}</td>
-                    <td>{{ $product->stock }}</td>
+
+                    <td><span class="{{ $product->stock <= 5 ? 'text-danger fw-bold' : '' }}">{{ $product->stock }}</span></td>
                     <td>
                         {{--                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">Edit</a>--}}
                         <button type="button"
@@ -101,23 +102,14 @@
         @include('admin.components.add-product-modal')
 
         <!-- Edit Product Modal -->
-{{--        @include('admin.components.edit-product-modal')--}}
+        {{--        @include('admin.components.edit-product-modal')--}}
 
-    @foreach ($products as $product)
-        @include('admin.components.edit-product-modal', ['product' => $product])
-    @endforeach
+        @foreach ($products as $product)
+            @include('admin.components.edit-product-modal', ['product' => $product])
+        @endforeach
 
         @push('scripts')
             <script>
-                setTimeout(function () {
-                    const alertSuccess = document.querySelector('.alert-success');
-                    if (alertSuccess) {
-                        alertSuccess.style.transition = 'opacity 0.5s ease';
-                        alertSuccess.style.opacity = '0';
-                        setTimeout(() => alertSuccess.remove(), 500); // Hapus setelah fade out
-                    }
-                }, 3000); // 3000ms = 3 detik
-
                 const editModal = document.getElementById('editProductModal');
                 editModal.addEventListener('show.bs.modal', function (event) {
                     const button = event.relatedTarget;

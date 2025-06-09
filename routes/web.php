@@ -35,8 +35,14 @@ Route::get('/transaksi', function () {
     return view('transaksi');
 });
 
+Route::get('/detail', function () {
+    return view('detail');
+});
 
 
+//Route::get('/product-detail', [ProductsController::class, 'detail']);
+
+Route::get('/product-detail/{id}', [ProductsController::class, 'detail'])->name('product-detail');
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/dashboard', function () {
@@ -62,6 +68,11 @@ Route::get('/admin', function () {
     return view('admin');
 });
 
+Route::get('/detail', function () {
+    return view('admin.detail');
+});
+
+
 Route::get('/admin', [DashboardController::class, 'index'])
     ->name('admin.dashboard');
 
@@ -78,9 +89,19 @@ Route::resource('/transaction', TransactionController::class);
 //    return view('admin.dashboard');
 //});
 
-Route::prefix('admin')->group(function () {
-    Route::resource('transactions', TransactionController::class);
-});
+
+//Route::prefix('/transaction')->group(function () {
+//    Route::resource('transactions', TransactionController::class);
+//});
+
+Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index');
+Route::post('/transaction', [TransactionController::class, 'store'])->name('transaction.store');
+Route::put('/transaction/{id}', [TransactionController::class, 'update'])->name('transaction.update');
+
+Route::get('/transaction/detail/{invoice}', [TransactionController::class, 'detail'])->name('transaction.detail');
+//Route::post('/transaction/detail', [TransactionController::class, 'store'])->name('transaction.store');
+//Route::put('/transaction/detail/{id}', [TransactionController::class, 'update'])->name('transaction.update');
+
 
 Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('products.update');
 
