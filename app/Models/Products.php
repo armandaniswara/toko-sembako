@@ -22,4 +22,9 @@ class Products extends Model
     {
         return $this->hasMany(TransactionsDetail::class, 'sku', 'sku');
     }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class, 'sku', 'sku');
+    }
 }
