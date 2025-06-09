@@ -17,15 +17,22 @@ class TransactionController extends Controller
     {
         $search = $request->input('search');
 
-        $query = Transactions::query();
+        // Query utama dengan join ke transaction_details dan products
+        $query = Transactions::select('transaction.*')
+            ->selectRaw('COALESCE(SUM(products.price * transaction_detail.qty), 0) as total_amount')
+            ->leftJoin('transaction_detail', 'transaction.invoice', '=', 'transaction_detail.invoice')
+            ->leftJoin('products', 'transaction_detail.sku', '=', 'products.sku')
+            ->groupBy('transaction.id'); // Pastikan groupBy sesuai primary key
 
+        // Filter pencarian jika ada
         if ($search) {
             $query->where(function($q) use ($search) {
-                $q->where('invoice', 'like', "%{$search}%");
+                $q->where('transaction.invoice', 'like', "%{$search}%");
             });
         }
 
-        $transactions = $query->orderBy('updated_at', 'desc')->paginate(10);
+        // Urutkan dan paginasi
+        $transactions = $query->orderBy('transaction.updated_at', 'desc')->paginate(10);
 
         return view('admin.transaction', compact('transactions', 'search'));
     }
