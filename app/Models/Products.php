@@ -25,6 +25,6 @@ class Products extends Model
 
     public function cart()
     {
-        return $this->hasMany(Cart::class, 'sku', 'sku');
+        return $this->hasMany(Carts::class, 'sku', 'sku');
     }
 }

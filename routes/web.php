@@ -26,11 +26,6 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
-
-Route::get('/checkout', function () {
-    return view('checkout');
-});
-
 Route::get('/checkout', [CartController::class, 'detail'])->name('checkout');
 
 Route::get('/transaksi', function () {

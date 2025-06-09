@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cart-Detail')
+@section('title', 'Carts-Detail')
 
 @section('content')
     <div class="d-flex p-5 my-5">
