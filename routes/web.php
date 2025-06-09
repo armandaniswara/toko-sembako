@@ -40,7 +40,9 @@ Route::get('/detail', function () {
 });
 
 
+//Route::get('/product-detail', [ProductsController::class, 'detail']);
 
+Route::get('/product-detail/{id}', [ProductsController::class, 'detail'])->name('product-detail');
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/dashboard', function () {
