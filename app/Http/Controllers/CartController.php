@@ -16,14 +16,9 @@ class CartController extends Controller
 
     public function detail()
     {
-        $cart = Cart::with(['product', 'cart'])
-            ->get();
+        $carts = Cart::with('product')->get();
 
-        if ($cart->isEmpty()) {
-            return redirect()->back()->with('error', 'Data transaction_detail tidak ditemukan untuk invoice: ');
-        }
-
-        return view('checkout', compact('cart'));
+        return view('checkout', compact('carts'));
     }
 
 

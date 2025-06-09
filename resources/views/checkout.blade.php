@@ -44,7 +44,7 @@
             <label class="ms-5" >Aksi</label>
         </div>
     </div>
-    @foreach ($carts as $cart)
+    @foreach ($carts as $item)
     <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
             <div class=" d-flex">
                 <input class="" type="checkbox" value="" id="defaultCheck1">
@@ -52,7 +52,7 @@
                     Produk
                 </label>
             </div>
-            <label class="ms-5">{{ $cart->cart->price }}</label>
+            <label class="ms-5">{{ number_format($item->product->price ?? 0, 0, ',', '.') }}</label>
             <div class="d-flex align-items-center">
                 <label class="">Kuantitas</label>
                 <label class="ms-5">Total Harga</label>

@@ -41,7 +41,20 @@ class TransactionController extends Controller
             return redirect()->back()->with('error', 'Data transaction_detail tidak ditemukan untuk invoice: ' . $invoice);
         }
 
-        return view('admin.detail', compact('transactions'));
+        // Tambahkan kolom 'jumlah' untuk setiap item (product.price * qty)
+        $transactions->transform(function ($item) {
+            $price = $item->product->price ?? 0;
+            $item->jumlah = $price * $item->qty;
+            return $item;
+        });
+
+        // Hitung summary total dari seluruh 'jumlah'
+        $totalSummary = $transactions->sum('jumlah');
+
+        // Hitung summary total dari seluruh 'jumlah'
+        $totalSummary = $transactions->sum('jumlah');
+
+        return view('admin.detail', compact('transactions', 'totalSummary'));
     }
 
 
