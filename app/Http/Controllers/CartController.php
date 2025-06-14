@@ -9,8 +9,13 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = Carts::all();
-        return view('checkout', compact('cart'));
+        $userEmail = auth()->user()->email; // Ambil email user yang sedang login
+//        $carts = Carts::where('email', $userEmail)->get(); // Ambil carts berdasarkan email user
+        $carts = Carts::with('product')
+            ->where('email', $userEmail)
+            ->get();
+
+        return view('checkout', compact('carts'));
     }
 
 
@@ -43,5 +48,18 @@ class CartController extends Controller
         return back()->with('success', 'Product berhasil ditambahkan.');
     }
 
+    public function updateQuantity(Request $request)
+    {
+        $request->validate([
+            'cart_id' => 'required|integer|exists:carts,id',
+            'qty' => 'required|integer|min:1',
+        ]);
+
+        $cart = Carts::find($request->cart_id);
+        $cart->qty = $request->qty;
+        $cart->save();
+
+        return response()->json(['success' => true, 'message' => 'Quantity updated successfully']);
+    }
 
 }

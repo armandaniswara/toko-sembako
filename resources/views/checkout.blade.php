@@ -19,19 +19,39 @@
                 <div class="bg-white rounded-3 p-3">
                     <div class="d-flex">
                         <input type="checkbox" id="pilih_semua" name="pilih_semua" class="styled-checkbox">
-                        <img style="width: 25vh" src="" alt="">
-                        <p style="width: 75vh">Nama Product</p>
-                        <div class="align-items-center">
-                            <p class="fw-bold ff-popins">Rp100.000</p>
-                            <div class="input-group input-group-sm" style="width: 90px;">
-                                <button class="btn btn-outline-secondary" type="button" id="minus-btn">-</button>
+                        @forelse ($carts as $index => $cart)
+                            @if($cart->product->image)
+                                <img style="width: 25vh" src="{{ asset('storage/products/' . $cart->product->image) }}" alt="">
+                            @else
+                                <img style="width: 25vh" src="" alt="">
+                            @endif
+                            <img style="width: 25vh" src="" alt="">
+                            <p style="width: 75vh">{{$cart->product->name }}</p>
 
-                                <input type="text" class="form-control text-center" value="2" id="quantity-input"
-                                       readonly>
+                            <div class="align-items-center">
+                                <p class="fw-bold ff-popins">Rp100.000</p>
+                                <div class="input-group input-group-sm" style="width: 90px;">
+                                    <button class="btn btn-outline-secondary minus-btn" type="button" data-cart-id="{{ $cart->id }}">-</button>
 
-                                <button class="btn btn-outline-secondary" type="button" id="plus-btn">+</button>
+                                    <input type="text" class="form-control text-center quantity-input" id="quantity-input{{ $cart->id }}"
+                                           value="{{ $cart->qty }}" readonly>
+
+                                    <button class="btn btn-outline-secondary plus-btn" type="button" data-cart-id="{{ $cart->id }}">+</button>
+                                </div>
                             </div>
-                        </div>
+                        @empty
+                            <div class="align-items-center">
+                                <p class="fw-bold ff-popins">Rp100.000</p>
+                                <div class="input-group input-group-sm" style="width: 90px;">
+                                    <button class="btn btn-outline-secondary" type="button" id="minus-btn">-</button>
+
+                                    <input type="text" class="form-control text-center" value="2" id="quantity-input"
+                                           readonly>
+
+                                    <button class="btn btn-outline-secondary" type="button" id="plus-btn">+</button>
+                                </div>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -50,22 +70,51 @@
     </div>
     </body>
     <script>
-        const minusBtn = document.getElementById('minus-btn');
-        const plusBtn = document.getElementById('plus-btn');
-        const quantityInput = document.getElementById('quantity-input');
+        const plusButtons = document.querySelectorAll('.plus-btn');
+        const minusButtons = document.querySelectorAll('.minus-btn');
 
-        plusBtn.addEventListener('click', function() {
-            let currentValue = parseInt(quantityInput.value);
-            currentValue++;
-            quantityInput.value = currentValue;
+        function updateQuantityOnServer(cartId, qty) {
+            fetch("{{ route('cart.updateQuantity') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({ cart_id: cartId, qty: qty })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        console.log('Quantity updated');
+                    } else {
+                        alert('Gagal update quantity');
+                    }
+                })
+                .catch(() => alert('Error pada saat update quantity'));
+        }
+
+        plusButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const cartId = this.getAttribute('data-cart-id');
+                const input = document.getElementById('quantity-input' + cartId);
+                let currentValue = parseInt(input.value);
+                currentValue++;
+                input.value = currentValue;
+                updateQuantityOnServer(cartId, currentValue);
+            });
         });
 
-        minusBtn.addEventListener('click', function() {
-            let currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                currentValue--;
-                quantityInput.value = currentValue;
-            }
+        minusButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const cartId = this.getAttribute('data-cart-id');
+                const input = document.getElementById('quantity-input' + cartId);
+                let currentValue = parseInt(input.value);
+                if (currentValue > 1) {
+                    currentValue--;
+                    input.value = currentValue;
+                    updateQuantityOnServer(cartId, currentValue);
+                }
+            });
         });
     </script>
 @endsection

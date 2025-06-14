@@ -26,7 +26,7 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
-Route::get('/checkout', [CartController::class, 'detail'])->name('checkout');
+Route::get('/checkout', [CartController::class, 'index'])->name('checkout');
 
 Route::get('/transaksi', function () {
     return view('transaksi');
@@ -46,6 +46,8 @@ Route::get('/payment', function () {
 
 Route::get('/product-detail/{id}', [ProductsController::class, 'detail'])->name('product-detail');
 Route::post('/carts', [CartController::class, 'store'])->name('carts.store');
+Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/dashboard', function () {
