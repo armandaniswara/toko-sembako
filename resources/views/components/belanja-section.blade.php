@@ -15,7 +15,10 @@
                         <p class="belanja-card-price">IDR {{ number_format($product->price, 0, ',', '.') }}</p>
                     </div>
                 </a>
-                <button href="/checkout" class="my-2 bg-coffee ff-popins rounded-3 ff-popins text-light w-50" style="height: 5vh">Beli</button>
+{{--                <button href="/payment" class="my-2 btn-custom ff-poppins rounded-3 text-light w-50" style="height: 5vh; text-decoration: none;">Beli</button>--}}
+                <a type="submit" href="/payment" class="my-2 btn ff-popins w-50" style="background-color: #b98a55; color: white;">
+                    Beli
+                </a>
             </div>
         @endforeach
 

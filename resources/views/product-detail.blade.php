@@ -38,8 +38,6 @@
             {{-- PERUBAHAN: Menambahkan ID 'subtotal' agar mudah dimanipulasi oleh JavaScript --}}
             <h6>Sub total: <span id="subtotal">Rp{{ number_format($product->price, 0, ',', '.') }}</span></h6>
 
-{{--            <button class="my-2 btn ff-popins w-100" style="background-color: #b98a55; color: white;">+ Keranjang</button>--}}
-
             {{-- Form untuk tambah ke keranjang --}}
             <form id="add-to-cart-form" action="{{ route('carts.store') }}" method="POST">
                 @csrf

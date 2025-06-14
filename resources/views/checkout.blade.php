@@ -32,7 +32,7 @@
                                     @endif
                                 </td>
                                 <td style="width: 40%;">{{ $cart->product->name }}</td>
-                                <td style="width: 15%;" class="fw-bold ff-popins">Rp100.000</td>
+                                <td style="width: 15%;" class="fw-bold ff-popins">Rp{{ number_format($cart->product->price , 2, ',', '.') }}</td>
                                 <td style="width: 27%;">
                                     <div class="input-group input-group-sm" style="width: 90px">
                                         <button class="btn btn-outline-secondary minus-btn" type="button" data-cart-id="{{ $cart->id }}">-</button>
@@ -123,9 +123,21 @@
             const selectAllCheckbox = document.getElementById('pilih_semua');
             const totalElement = document.getElementById('total-harga'); // target untuk total harga
 
+            function formatToRupiah(amount) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(amount);
+            }
+
             function getPriceFromString(priceString) {
-                // Mengubah string harga seperti 'Rp100.000' menjadi angka 100000
-                return Number(priceString.replace(/[^0-9]/g, ''));
+                return parseFloat(
+                    priceString
+                        .replace(/[^0-9,]/g, '')
+                        .replace(',', '.')
+                );
             }
 
             function updateTotal() {
@@ -142,7 +154,9 @@
                 });
 
                 // Ubah tampilannya ke format 'Rp xxx.xxx'
-                totalElement.textContent = 'Rp ' + total.toLocaleString('id-ID');
+                totalElement.textContent = formatToRupiah(total);
+
+
             }
 
             // Event checkbox item
