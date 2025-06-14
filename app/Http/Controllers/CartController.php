@@ -21,5 +21,19 @@ class CartController extends Controller
         return view('checkout', compact('carts'));
     }
 
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => ['required', 'string', 'max:255'],
+            'sku' => ['required', 'string', 'max:255'],
+            'qty' => ['required', 'integer', 'min:0'],
+        ]);
+
+
+        Carts::create($validated);
+
+        return back()->with('success', 'Product berhasil ditambahkan.');
+    }
+
 
 }

@@ -12,6 +12,7 @@ class Carts extends Model
     protected $table = 'carts';
 
     protected $fillable = [
+        'email',
         'sku',
         'qty',
     ];
