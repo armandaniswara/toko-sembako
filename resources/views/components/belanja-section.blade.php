@@ -15,7 +15,7 @@
                         <p class="belanja-card-price">IDR {{ number_format($product->price, 0, ',', '.') }}</p>
                     </div>
                 </a>
-                <button class="my-2 btn ff-popins w-50" style="background-color: #b98a55; color: white;">Beli</button>
+                <button href="/checkout" class="my-2 bg-coffee ff-popins rounded-3 ff-popins text-light w-50" style="height: 5vh">Beli</button>
             </div>
         @endforeach
 

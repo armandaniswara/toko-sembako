@@ -100,7 +100,7 @@ class AuthController extends Controller
             if ($user->role === 'Admin') {
                 return redirect()->intended('/admin');
             } elseif ($user->role === 'User') {
-                return redirect()->intended('/home');
+                return redirect()->intended('/');
             } else {
                 Auth::logout();
                 return redirect()->route('login')->withErrors(['email' => 'Unauthorized role.']);

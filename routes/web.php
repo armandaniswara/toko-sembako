@@ -36,6 +36,8 @@ Route::get('/detail', function () {
     return view('detail');
 });
 
+Route::post('/transaction/{id}', [TransactionController::class, 'update'])->name('transaction.update');
+
 
 
 
