@@ -1,110 +1,71 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" href="../../public/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap" rel="stylesheet"/>
-</head>
-<nav class="d-flex justify-content-between align-items-center px-5 py-3"
-     style="background-color: rgba(1,1,1,0.8); border-bottom: 1px solid #684e34; position: fixed; top: 0; left: 0; right: 0; z-index: 9999; ">
+@extends('layouts.app2')
 
-    <a href="/" class="fs-2 fw-bold text-light text-decoration-none fst-italic ff-popins " style="">Sembako<span class="text-coffe" style="color: #b98a55;">Plus.</span></a>
+@section('title', 'Carts-Detail')
 
+@section('content')
+    <body class="ps-5 pe-5" style="margin-top: 15vh;">
+    <div class="ps-5 pe-5">
+        <h3 class="ps-3 ff-popins fw-bolder">Keranjang</h3>
+        <div class="d-flex p-3">
+            <div class="container ff-popins" style="width: 68%;">
+                <div class=" bg-white rounded-3 p-3 my-3">
+                    <div class=" d-flex">
+                        <input type="checkbox" id="pilih_semua" name="pilih_semua" class="styled-checkbox">
+                        <label class="ms-3 fw-bold ff-popins" for="defaultCheck1">
+                            Pilih semua
+                        </label>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3 p-3">
+                    <div class="d-flex">
+                        <input type="checkbox" id="pilih_semua" name="pilih_semua" class="styled-checkbox">
+                        <img style="width: 25vh" src="" alt="">
+                        <p style="width: 75vh">Nama Product</p>
+                        <div class="align-items-center">
+                            <p class="fw-bold ff-popins">Rp100.000</p>
+                            <div class="input-group input-group-sm" style="width: 90px;">
+                                <button class="btn btn-outline-secondary" type="button" id="minus-btn">-</button>
 
+                                <input type="text" class="form-control text-center" value="2" id="quantity-input"
+                                       readonly>
 
-
-    {{--    @auth--}}
-    {{--        <form method="POST" action="{{ route('logout') }}">--}}
-    {{--            @csrf--}}
-    {{--            <button type="submit" class="btn btn-danger">Logout</button>--}}
-    {{--        </form>--}}
-    {{--    @endauth--}}
-
-
-</nav>
-
-<body class="bg-light p-custom ps-5 text-dark">
-    <div class="bg-white mx-5 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 50px;">
-        <div class=" d-flex">
-            <input class="ms-5" type="checkbox" value="" id="defaultCheck1">
-            <label class="ms-4" for="defaultCheck1">
-                Produk
-            </label>
-        </div>
-        <label class="ms-5">Harga Satuan</label>
-        <div class="d-flex align-items-center">
-            <label class="">Kuantitas</label>
-            <label class="ms-5">Total Harga</label>
-            <label class="ms-5" >Aksi</label>
-        </div>
-    </div>
-    @foreach ($carts as $item)
-    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
-            <div class=" d-flex">
-                <input class="" type="checkbox" value="" id="defaultCheck1">
-                <label class="ms-4" for="defaultCheck1">
-                    Produk
-                </label>
+                                <button class="btn btn-outline-secondary" type="button" id="plus-btn">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <label class="ms-5">{{ number_format($item->product->price ?? 0, 0, ',', '.') }}</label>
-            <div class="d-flex align-items-center">
-                <label class="">Kuantitas</label>
-                <label class="ms-5">Total Harga</label>
-                <label class="ms-5" >Hapus</label>
+            <div class="container bg-white rounded-3 ff-popins p-3 my-3" style="width: 30%;">
+                <h6 class="fw-bold">Ringkasan Belanja</h6>
+                <div class="d-flex">
+                    <p class="text-secondary" style="width: 36vh">Total</p>
+                    <p class="fw-bold">Rp 200.000</p>
+                </div>
+                <hr>
+                <div class="d-grid">
+                <button href="" class="btn-custom fw-bold ff-popins rounded-3" type="button" style="height: 5vh">Beli</button>
+                </div>
             </div>
+        </div>
+    </div>
+    </body>
+    <script>
+        const minusBtn = document.getElementById('minus-btn');
+        const plusBtn = document.getElementById('plus-btn');
+        const quantityInput = document.getElementById('quantity-input');
 
-    </div>
-    @endforeach
-{{--    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">--}}
-{{--        <div class=" d-flex">--}}
-{{--            <input class="" type="checkbox" value="" id="defaultCheck1">--}}
-{{--            <label class="ms-4" for="defaultCheck1">--}}
-{{--                Produk--}}
-{{--            </label>--}}
-{{--        </div>--}}
-{{--        <label class="ms-5">Harga Satuan</label>--}}
-{{--        <div class="d-flex align-items-center">--}}
-{{--            <label class="">Kuantitas</label>--}}
-{{--            <label class="ms-5">Total Harga</label>--}}
-{{--            <label class="ms-5" >Hapus</label>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">--}}
-{{--        <div class=" d-flex">--}}
-{{--            <input class="" type="checkbox" value="" id="defaultCheck1">--}}
-{{--            <label class="ms-4" for="defaultCheck1">--}}
-{{--                Produk--}}
-{{--            </label>--}}
-{{--        </div>--}}
-{{--        <label class="ms-5">Harga Satuan</label>--}}
-{{--        <div class="d-flex align-items-center">--}}
-{{--            <label class="">Kuantitas</label>--}}
-{{--            <label class="ms-5">Total Harga</label>--}}
-{{--            <label class="ms-5" >Hapus</label>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-</body>
-<div class="position-fixed d-flex align-items-center bg-white rounded-1 shadow justify-content-between bottom-0 start-50 translate-middle-x mb-3" style="width: 85%; height: 50px;">
-    <div class=" d-flex">
-        <input class="ms-5" type="checkbox" value="" id="defaultCheck1">
-        <label class="ms-4" for="defaultCheck1">
-            Pilih Semua (item)
-        </label>
-        <label class="ms-5">Hapus</label>
-    </div>
-    <div class="d-flex align-items-center">
-    <label>Total(0 produk):</label>
-        <label class="me-2">Rp.0</label>
-    <button class="btn-custom border-0 rounded-2 d-flex align-items-center justify-content-center me-5" style=" width: 125px; height: 35px;">
-        Checkout
-    </button>
-    </div>
+        plusBtn.addEventListener('click', function() {
+            let currentValue = parseInt(quantityInput.value);
+            currentValue++;
+            quantityInput.value = currentValue;
+        });
 
-</div>
-</html>
+        minusBtn.addEventListener('click', function() {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                currentValue--;
+                quantityInput.value = currentValue;
+            }
+        });
+    </script>
+@endsection
