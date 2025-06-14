@@ -29,11 +29,16 @@ class CartController extends Controller
             'qty' => ['required', 'integer', 'min:0'],
         ]);
 
+        $cart = Carts::where('sku', $validated['sku'])->first();
 
-        Carts::updateOrCreate(
-            ['sku' => $validated['sku']],
-            ['email' => $validated['email'], 'qty' => $validated['qty']]
-        );
+        if ($cart) {
+            // Jika sudah ada, tambahkan qty baru ke qty yang sudah ada
+            $cart->qty += $validated['qty'];
+            $cart->save();
+        } else {
+            // Jika belum ada, buat data baru
+            Carts::create($validated);
+        }
 
         return back()->with('success', 'Product berhasil ditambahkan.');
     }
