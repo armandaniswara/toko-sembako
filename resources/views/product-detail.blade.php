@@ -37,7 +37,20 @@
             </div>
             {{-- PERUBAHAN: Menambahkan ID 'subtotal' agar mudah dimanipulasi oleh JavaScript --}}
             <h6>Sub total: <span id="subtotal">Rp{{ number_format($product->price, 0, ',', '.') }}</span></h6>
-            <button class="my-2 btn ff-popins w-100" style="background-color: #b98a55; color: white;">+ Keranjang</button>
+
+{{--            <button class="my-2 btn ff-popins w-100" style="background-color: #b98a55; color: white;">+ Keranjang</button>--}}
+
+            {{-- Form untuk tambah ke keranjang --}}
+            <form id="add-to-cart-form" action="{{ route('carts.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                <input type="hidden" name="sku" value="{{ $product->sku }}">
+                <input type="hidden" id="form-qty" name="qty" value="1">
+                <button type="submit" class="my-2 btn ff-popins w-100" style="background-color: #b98a55; color: white;">
+                    + Keranjang
+                </button>
+            </form>
+
             <button class="btn ff-popins w-100" style="background-color: white; color: #b98a55; border:2px solid #b98a55">Beli Sekarang</button>
         </div>
     </div>
@@ -52,6 +65,7 @@
 
         // Mengambil elemen-elemen yang akan kita gunakan
         const qtyInput = document.getElementById('qty');
+        const formQtyInput = document.getElementById('form-qty');
         const subtotalElement = document.getElementById('subtotal');
 
         // Fungsi baru untuk memperbarui subtotal
@@ -91,5 +105,10 @@
                 updateSubtotal();
             }
         }
+
+        // Pastikan saat submit form, qty hidden telah sinkron dengan nilai qtyInput
+        document.getElementById('add-to-cart-form').addEventListener('submit', function () {
+            formQtyInput.value = qtyInput.value;
+        });
     </script>
 @endpush

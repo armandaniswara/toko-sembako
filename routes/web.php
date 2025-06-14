@@ -45,6 +45,7 @@ Route::get('/payment', function () {
 //Route::get('/product-detail', [ProductsController::class, 'detail']);
 
 Route::get('/product-detail/{id}', [ProductsController::class, 'detail'])->name('product-detail');
+Route::post('/carts', [CartController::class, 'store'])->name('carts.store');
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/dashboard', function () {

@@ -30,7 +30,10 @@ class CartController extends Controller
         ]);
 
 
-        Carts::create($validated);
+        Carts::updateOrCreate(
+            ['sku' => $validated['sku']],
+            ['email' => $validated['email'], 'qty' => $validated['qty']]
+        );
 
         return back()->with('success', 'Product berhasil ditambahkan.');
     }
