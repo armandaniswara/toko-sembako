@@ -60,7 +60,14 @@
                 </div>
                 <hr>
                 <div class="d-grid">
-                    <button href="" class="btn-custom fw-bold ff-popins rounded-3" type="button" style="height: 5vh">Beli</button>
+                    <form id="add-to-cart-form" action="{{ route('checkouts.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                        <input type="hidden" name="sku" value="{{ $cart->product->sku }}">
+                        <input type="hidden" id="form-qty" name="qty" value="1">
+                        <input type="hidden" name="redirect_to_cart" value="true">
+                        <button href="" class="btn-custom fw-bold ff-popins rounded-3" type="submit" style="height: 5vh; width: 50vh">Beli</button>
+                    </form>
                 </div>
             </div>
 

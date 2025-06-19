@@ -50,7 +50,7 @@
                 </button>
             </form>
 
-            <form id="add-to-cart-form" action="{{ route('checkouts.store') }}" method="POST">
+            <form id="add-to-cart-form" action="{{ route('checkout.now') }}" method="GET">
                 @csrf
                 <input type="hidden" name="email" value="{{ auth()->user()->email }}">
                 <input type="hidden" name="sku" value="{{ $product->sku }}">

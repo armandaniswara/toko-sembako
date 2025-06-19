@@ -32,7 +32,7 @@
     {{--    @endauth--}}
 
     <div class="navbar-extra">
-        <a href="/checkout" id="shopping-cart" class="text-a me-3"><i data-feather="shopping-cart"></i></a>
+        <a href="/cart" id="shopping-cart" class="text-a me-3"><i data-feather="shopping-cart"></i></a>
         <a href="/transaksi" id="clipboard" class="text-a me-3"><i data-feather="clipboard"></i></a>
         <a href="/profile" id="user" class="text-a me-5"><i data-feather="user"></i></a>
     </div>

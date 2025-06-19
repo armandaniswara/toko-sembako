@@ -44,7 +44,8 @@ Route::get('/detail', function () {
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkouts', [CheckoutController::class, 'store'])->name('checkouts.store');
-
+Route::get('/checkout/now', [CheckoutController::class, 'checkoutNow'])->name('checkout.now');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 //Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout.create');
 //Route::post('/checkout/process', [CheckoutController::class, 'store'])->name('checkout.store');
 //Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
