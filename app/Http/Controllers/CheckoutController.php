@@ -39,25 +39,6 @@ class CheckoutController extends Controller
         ]);
     }
 
-//    public function index()
-//    {
-//        $user = auth()->user();
-//
-//        // Ambil semua data cart milik user yang sedang login, dengan detail produk
-//        $checkouts = Carts::with([
-//            'product' => function ($query) {
-//                $query->select('sku', 'name', 'price', 'image');
-//            }
-//        ])
-//            ->where('email', $user->email)
-//            ->get();
-//
-//        return view('checkout', [
-//            'checkouts' => $checkouts,
-//            'userAlamat' => $user->alamat
-//        ]);
-//    }
-
     public function checkoutNow(Request $request)
     {
         // Validasi input dari URL
@@ -91,6 +72,40 @@ class CheckoutController extends Controller
             'checkouts' => $checkouts,
             'userAlamat' => $user->alamat,
             'checkout_type' => $checkout_type
+        ]);
+    }
+
+    public function checkoutSelected(Request $request)
+    {
+        // 1. Validasi input: pastikan 'cart_selected' ada dan merupakan sebuah array
+        $validated = $request->validate([
+            'cart_selected' => ['required', 'array', 'min:1'],
+            'cart_selected.*' => ['string', 'exists:products,sku'], // Pastikan setiap isinya adalah SKU yang valid
+        ]);
+
+        $user = auth()->user();
+        $selectedSkus = $validated['cart_selected'];
+
+        // 2. Ambil data lengkap (termasuk qty) dari keranjang HANYA untuk item yang SKU-nya dipilih
+        $checkouts = Carts::with([
+            'product' => function ($query) {
+                $query->select('id', 'sku', 'name', 'price', 'image');
+            }
+        ])
+            ->where('email', $user->email) // atau ->where('user_id', $user->id)
+            ->whereIn('sku', $selectedSkus) // Ini bagian pentingnya!
+            ->get();
+
+        // Jika karena suatu alasan tidak ada data yang cocok (misal, user buka 2 tab), kembali ke keranjang
+        if ($checkouts->isEmpty()) {
+            return redirect()->route('cart.index')->with('error', 'Item yang dipilih tidak ditemukan.');
+        }
+
+        // 3. Tampilkan halaman checkout dengan data yang sudah difilter
+        return view('checkout', [
+            'checkouts' => $checkouts,
+            'userAlamat' => $user->alamat,
+            'checkout_type' => 'selected' // Kita bisa gunakan tipe baru jika perlu logika berbeda di view checkout
         ]);
     }
 

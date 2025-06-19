@@ -7,71 +7,70 @@
     <div class="ps-5 pe-5">
         <h3 class="ps-3 ff-popins fw-bolder">Keranjang</h3>
 
-        <div class="d-flex p-3">
-            <div class="container ff-popins" style="width: 68%;">
-                <div class="bg-white rounded-3 p-3 my-3">
-                    <div class="d-flex">
-                        <input type="checkbox" id="pilih_semua" name="pilih_semua" class="styled-checkbox">
-                        <label class="ms-3 fw-bold ff-popins" for="pilih_semua">Pilih semua</label>
+        {{-- PINDAHKAN FORM KE SINI, DAN UBAH ACTION-NYA --}}
+        <form id="checkout-selected-form" action="{{ route('checkout.selected') }}" method="POST">
+            @csrf
+            <div class="d-flex p-3">
+                <div class="container ff-popins" style="width: 68%;">
+                    <div class="bg-white rounded-3 p-3 my-3">
+                        <div class="d-flex">
+                            <input type="checkbox" id="pilih_semua" name="pilih_semua" class="styled-checkbox">
+                            <label class="ms-3 fw-bold ff-popins" for="pilih_semua">Pilih semua</label>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-3 p-3">
+                        <table class="table align-middle">
+                            <tbody>
+                            @forelse ($carts as $cart)
+                                <tr>
+                                    <td style="width: 3%;">
+                                        {{-- UBAH VALUE MENJADI SKU PRODUK --}}
+                                        <input type="checkbox" class="styled-checkbox" name="cart_selected[]" value="{{ $cart->product->sku }}">
+                                    </td>
+                                    <td style="width: 15%;">
+                                        @if($cart->product->image)
+                                            <img style="width: 75px; height: auto;" src="{{ asset('storage/products/' . $cart->product->image) }}" alt="{{ $cart->product->name }}">
+                                        @else
+                                            <img style="width: 75px; height: auto;" src="" alt="No image">
+                                        @endif
+                                    </td>
+                                    <td style="width: 40%;">{{ $cart->product->name }}</td>
+                                    <td style="width: 15%;" class="fw-bold ff-popins">Rp{{ number_format($cart->product->price , 2, ',', '.') }}</td>
+                                    <td style="width: 27%;">
+                                        <div class="input-group input-group-sm ms-5" style="width: 90px">
+                                            <button class="btn btn-outline-secondary minus-btn" type="button" data-cart-id="{{ $cart->id }}">-</button>
+                                            <input type="text" class="form-control text-center quantity-input"
+                                                   id="quantity-input{{ $cart->id }}" value="{{ $cart->qty }}" readonly>
+                                            <button class="btn btn-outline-secondary plus-btn" type="button" data-cart-id="{{ $cart->id }}">+</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center text-secondary">Keranjang kosong</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-3 p-3">
-                    <table class="table align-middle">
-                        <tbody>
-                        @forelse ($carts as $cart)
-                            <tr>
-                                <td style="width: 3%;">
-                                    <input type="checkbox" class="styled-checkbox" name="cart_selected[]" value="{{ $cart->id }}">
-                                </td>
-                                <td style="width: 15%;">
-                                    @if($cart->product->image)
-                                        <img style="width: 75px; height: auto;" src="{{ asset('storage/products/' . $cart->product->image) }}" alt="{{ $cart->product->name }}">
-                                    @else
-                                        <img style="width: 75px; height: auto;" src="" alt="No image">
-                                    @endif
-                                </td>
-                                <td style="width: 40%;">{{ $cart->product->name }}</td>
-                                <td style="width: 15%;" class="fw-bold ff-popins">Rp{{ number_format($cart->product->price , 2, ',', '.') }}</td>
-                                <td style="width: 27%;">
-                                    <div class="input-group input-group-sm ms-5" style="width: 90px">
-                                        <button class="btn btn-outline-secondary minus-btn" type="button" data-cart-id="{{ $cart->id }}">-</button>
-                                        <input type="text" class="form-control text-center quantity-input"
-                                               id="quantity-input{{ $cart->id }}" value="{{ $cart->qty }}" readonly>
-                                        <button class="btn btn-outline-secondary plus-btn" type="button" data-cart-id="{{ $cart->id }}">+</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center text-secondary">Keranjang kosong</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
+                <div class="container bg-white rounded-3 ff-popins p-3 my-3" style="width: 30%;">
+                    <h6 class="fw-bold">Ringkasan Belanja</h6>
+                    <div class="d-flex">
+                        <p class="text-secondary" style="width: 36vh">Total</p>
+                        <p id="total-harga" class="fw-bold">Rp 0</p>
+                    </div>
+                    <hr>
+                    <div class="d-grid">
+                        {{-- HAPUS FORM LAMA DI SINI --}}
+                        {{-- TOMBOL BELI SEKARANG MENJADI SUBMIT UNTUK FORM BESAR --}}
+                        <button class="btn-custom fw-bold ff-popins rounded-3" type="submit" style="height: 5vh; width: 50vh">Beli</button>
+                    </div>
                 </div>
             </div>
-
-            <div class="container bg-white rounded-3 ff-popins p-3 my-3" style="width: 30%;">
-                <h6 class="fw-bold">Ringkasan Belanja</h6>
-                <div class="d-flex">
-                    <p class="text-secondary" style="width: 36vh">Total</p>
-                    <p id="total-harga" class="fw-bold">Rp 0</p>
-                </div>
-                <hr>
-                <div class="d-grid">
-                    <form id="add-to-cart-form" action="{{ route('checkouts.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="email" value="{{ auth()->user()->email }}">
-                        <input type="hidden" name="sku" value="{{ $cart->product->sku }}">
-                        <input type="hidden" id="form-qty" name="qty" value="1">
-                        <input type="hidden" name="redirect_to_cart" value="true">
-                        <button href="" class="btn-custom fw-bold ff-popins rounded-3" type="submit" style="height: 5vh; width: 50vh">Beli</button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
+        </form> {{-- TUTUP TAG FORM DI SINI --}}
     </div>
     </body>
 
