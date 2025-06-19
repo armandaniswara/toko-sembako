@@ -9,6 +9,7 @@ use App\Http\Controllers\ParameterController;
 use \App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', [ProductsController::class, 'shop']);
 
@@ -26,7 +27,7 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
-Route::get('/checkout', [CartController::class, 'index'])->name('checkout');
+
 
 Route::get('/transaksi', function () {
     return view('transaksi');
@@ -36,15 +37,22 @@ Route::get('/detail', function () {
     return view('detail');
 });
 
-Route::get('/payment', function () {
-    return view('payment');
-});
+//Route::get('/checkout', function () {
+//    return view('checkout');
+//});
+//
 
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkouts', [CheckoutController::class, 'store'])->name('checkouts.store');
 
+//Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout.create');
+//Route::post('/checkout/process', [CheckoutController::class, 'store'])->name('checkout.store');
+//Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
 //Route::get('/product-detail', [ProductsController::class, 'detail']);
 
 Route::get('/product-detail/{id}', [ProductsController::class, 'detail'])->name('product-detail');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/carts', [CartController::class, 'store'])->name('carts.store');
 Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 

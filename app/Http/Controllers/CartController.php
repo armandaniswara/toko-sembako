@@ -15,15 +15,13 @@ class CartController extends Controller
             ->where('email', $userEmail)
             ->get();
 
-        return view('checkout', compact('carts'));
+        return view('cart', compact('carts'));
     }
-
 
     public function detail()
     {
         $carts = Carts::with('product')->get();
-
-        return view('checkout', compact('carts'));
+        return view('cart', compact('carts'));
     }
 
     public function store(Request $request)
@@ -45,7 +43,8 @@ class CartController extends Controller
             Carts::create($validated);
         }
 
-        return back()->with('success', 'Product berhasil ditambahkan.');
+        return redirect()->route('cart')->with('success', 'Produk berhasil ditambahkan!');
+//        return back()->with('success', 'Product berhasil ditambahkan.');
     }
 
     public function updateQuantity(Request $request)
@@ -61,5 +60,7 @@ class CartController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Quantity updated successfully']);
     }
+
+
 
 }

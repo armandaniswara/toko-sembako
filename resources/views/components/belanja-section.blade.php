@@ -7,7 +7,8 @@
                 <a href="{{ route('product-detail', $product->id) }}" class="text-decoration-none text-dark">
                     <div class="p-2" style="cursor: pointer;">
                         @if($product->image)
-                            <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->name }}" class="belanja-card-img">
+                            <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->name }}"
+                                 class="belanja-card-img">
                         @else
                             <span class="text-muted">No image</span>
                         @endif
@@ -15,33 +16,39 @@
                         <p class="belanja-card-price">IDR {{ number_format($product->price, 0, ',', '.') }}</p>
                     </div>
                 </a>
-{{--                <button href="/payment" class="my-2 btn-custom ff-poppins rounded-3 text-light w-50" style="height: 5vh; text-decoration: none;">Beli</button>--}}
-                <a type="submit" href="/payment" class="my-2 btn ff-popins w-50" style="background-color: #b98a55; color: white;">
-                    Beli
-                </a>
+                {{--                <button href="/payment" class="my-2 btn-custom ff-poppins rounded-3 text-light w-50" style="height: 5vh; text-decoration: none;">Beli</button>--}}
+                {{--                <a href="{{ route('checkout', $product->id) }}" class="my-2 btn ff-popins w-50" style="background-color: #b98a55; color: white;">--}}
+                {{--                    Beli--}}
+                {{--                </a>--}}
+{{--                <a href="{{ route('checkout', $product->id) }}" class="my-2 btn ff-popins w-50 buy-now-link"--}}
+{{--                   style="background-color: #b98a55; color: white;">--}}
+{{--                    Beli--}}
+{{--                </a>--}}
+
             </div>
         @endforeach
 
     </div>
-{{--    @push('scripts')--}}
-{{--        <script>--}}
-{{--            document.addEventListener('DOMContentLoaded', function () {--}}
-{{--                const minusButton = document.getElementById('button-minus');--}}
-{{--                const plusButton = document.getElementById('button-plus');--}}
-{{--                const numberInput = document.querySelector('.input-group input[type="number"]');--}}
 
-{{--                minusButton.addEventListener('click', function () {--}}
-{{--                    let currentValue = parseInt(numberInput.value);--}}
-{{--                    if (currentValue > parseInt(numberInput.min)) {--}}
-{{--                        numberInput.value = currentValue - 1;--}}
-{{--                    }--}}
-{{--                });--}}
+    {{--    @push('scripts')--}}
+    {{--        <script>--}}
+    {{--            document.addEventListener('DOMContentLoaded', function () {--}}
+    {{--                const minusButton = document.getElementById('button-minus');--}}
+    {{--                const plusButton = document.getElementById('button-plus');--}}
+    {{--                const numberInput = document.querySelector('.input-group input[type="number"]');--}}
 
-{{--                plusButton.addEventListener('click', function () {--}}
-{{--                    let currentValue = parseInt(numberInput.value);--}}
-{{--                    numberInput.value = currentValue + 1;--}}
-{{--                });--}}
-{{--            });--}}
-{{--        </script>--}}
-{{--    @endpush--}}
+    {{--                minusButton.addEventListener('click', function () {--}}
+    {{--                    let currentValue = parseInt(numberInput.value);--}}
+    {{--                    if (currentValue > parseInt(numberInput.min)) {--}}
+    {{--                        numberInput.value = currentValue - 1;--}}
+    {{--                    }--}}
+    {{--                });--}}
+
+    {{--                plusButton.addEventListener('click', function () {--}}
+    {{--                    let currentValue = parseInt(numberInput.value);--}}
+    {{--                    numberInput.value = currentValue + 1;--}}
+    {{--                });--}}
+    {{--            });--}}
+    {{--        </script>--}}
+    {{--    @endpush--}}
 </section>

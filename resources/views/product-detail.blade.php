@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('title', 'Carts-Detail')
 
@@ -38,18 +38,29 @@
             {{-- PERUBAHAN: Menambahkan ID 'subtotal' agar mudah dimanipulasi oleh JavaScript --}}
             <h6>Sub total: <span id="subtotal">Rp{{ number_format($product->price, 0, ',', '.') }}</span></h6>
 
-            {{-- Form untuk tambah ke keranjang --}}
+{{--             Form untuk tambah ke keranjang--}}
             <form id="add-to-cart-form" action="{{ route('carts.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="email" value="{{ auth()->user()->email }}">
                 <input type="hidden" name="sku" value="{{ $product->sku }}">
                 <input type="hidden" id="form-qty" name="qty" value="1">
+                <input type="hidden" name="redirect_to_cart" value="true">
                 <button type="submit" class="my-2 btn ff-popins w-100" style="background-color: #b98a55; color: white;">
                     + Keranjang
                 </button>
             </form>
 
-            <button class="btn ff-popins w-100" style="background-color: white; color: #b98a55; border:2px solid #b98a55">Beli Sekarang</button>
+            <form id="add-to-cart-form" action="{{ route('checkouts.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                <input type="hidden" name="sku" value="{{ $product->sku }}">
+                <input type="hidden" id="form-qty" name="qty" value="1">
+                <input type="hidden" name="redirect_to_cart" value="true">
+                <button type="submit" class=" btn ff-popins w-100"
+                        style="background-color: white ; color: #b98a55; border: 2px solid #b98a55">
+                    Beli
+                </button>
+            </form>
         </div>
     </div>
 @endsection

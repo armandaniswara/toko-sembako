@@ -12,14 +12,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
           rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-light">
 {{--navbar--}}
-<nav class="d-flex justify-content-between align-items-center px-5 py-3"
-     style="background-color: rgba(1,1,1,0.8); border-bottom: 1px solid #684e34; position: fixed; top: 0; left: 0; right: 0; z-index: 9999; ">
-    <a href="/" class="fs-2 fw-bold text-light text-decoration-none fst-italic ff-popins " style="">Sembako<span
-            class="text-coffe" style="color: #b98a55;">Plus.</span></a>
-</nav>
+{{--<nav class="d-flex justify-content-between align-items-center px-5 py-3"--}}
+{{--     style="background-color: rgba(1,1,1,0.8); border-bottom: 1px solid #684e34; position: fixed; top: 0; left: 0; right: 0; z-index: 9999; ">--}}
+{{--    <a href="/" class="fs-2 fw-bold text-light text-decoration-none fst-italic ff-popins " style="">Sembako<span--}}
+{{--            class="text-coffe" style="color: #b98a55;">Plus.</span></a>--}}
+{{--</nav>--}}
+<x-navbar></x-navbar>
 {{--body section--}}
 @yield('content')
 
