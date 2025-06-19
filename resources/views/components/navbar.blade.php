@@ -3,11 +3,20 @@
 
     <a href="/" class="fs-2 fw-bold text-light text-decoration-none fst-italic ff-popins" style="">Sembako<span
             class="text-coffe" style="color: #b98a55;">Plus.</span></a>
+{{--    <ul class="d-flex list-unstyled mb-0 gap-4">--}}
+{{--        <li><a href="#home" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Home</a></li>--}}
+{{--        <li><a href="#about" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Tentang Kami</a></li>--}}
+{{--        <li><a href="#belanja" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Pergi Belanja</a></li>--}}
+{{--        <li><a href="#contact" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Kontak</a></li>--}}
+{{--    </ul>--}}
     <ul class="d-flex list-unstyled mb-0 gap-4">
-        <li><a href="#home" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Home</a></li>
-        <li><a href="#about" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Tentang Kami</a></li>
-        <li><a href="#belanja" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Pergi Belanja</a></li>
-        <li><a href="#contact" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Kontak</a></li>
+        <li><a href="/" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Home</a></li>
+
+        <li><a href="/#about" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Tentang Kami</a></li>
+
+        <li><a href="/#belanja" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Pergi Belanja</a></li>
+
+        <li><a href="/#contact" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Kontak</a></li>
     </ul>
 
     @guest

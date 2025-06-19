@@ -21,6 +21,41 @@
 </body>
 <script>
     feather.replace();
+        // Jalankan skrip setelah seluruh konten halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+
+        // Cek apakah kita berada di halaman utama (URL-nya hanya "/")
+        const isHomepage = window.location.pathname === '/';
+
+        // Jika kita berada di halaman utama, aktifkan smooth scroll
+        if (isHomepage) {
+        // Ambil semua tautan navigasi yang memiliki kelas .nav-link-scroll
+        const scrollLinks = document.querySelectorAll('.nav-link-scroll');
+
+        scrollLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+        // 1. Mencegah perilaku default tautan (yaitu pindah halaman)
+        event.preventDefault();
+
+        // 2. Ambil tujuan scroll dari atribut href (misal: "/#about" menjadi "#about")
+        const targetId = this.hash; // this.hash akan menghasilkan "#about"
+
+        // 3. Cari elemen di halaman yang memiliki ID tersebut
+        const targetElement = document.querySelector(targetId);
+
+        // 4. Jika elemen ditemukan, scroll ke sana dengan halus
+        if (targetElement) {
+        targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+    }
+    });
+    });
+    }
+        // Jika tidak di halaman utama, tidak ada JavaScript yang berjalan.
+        // Tautan akan berfungsi normal (misal: dari /produk akan pindah ke /#about).
+    });
 </script>
 @stack('scripts')
 </html>

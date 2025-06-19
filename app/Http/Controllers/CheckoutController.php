@@ -17,25 +17,6 @@ class CheckoutController extends Controller
     }
 
 
-//    public function index()
-//    {
-//        $userEmail = auth()->user()->email;
-//        $userAlamat = auth()->user()->alamat;
-//
-//        // Hanya memilih kolom sku dan qty dari tabel carts
-//        $checkouts = Products::select('sku', 'qty', 'email') // 'email' mungkin dibutuhkan untuk validasi
-//        ->with([
-//            // Hanya memilih kolom yang dibutuhkan dari tabel products
-//            'product' => function ($query) {
-//                $query->select('sku', 'name', 'price', 'image');
-//            }
-//        ])
-//            ->where('email', $userEmail)
-//            ->get();
-//
-//        return view('checkout', compact('checkouts', 'userAlamat'));
-//    }
-
     public function index()
     {
         $user = auth()->user();
