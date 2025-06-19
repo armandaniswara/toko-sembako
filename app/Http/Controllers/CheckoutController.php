@@ -111,25 +111,7 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'email' => ['required', 'string', 'max:255'],
-            'sku' => ['required', 'string', 'max:255'],
-            'qty' => ['required', 'integer', 'min:0'],
-        ]);
 
-        $checkout = Carts::where('sku', $validated['sku'])->first();
-
-        if ($checkout) {
-            // Jika sudah ada, tambahkan qty baru ke qty yang sudah ada
-            $checkout->qty += $validated['qty'];
-            $checkout->save();
-        } else {
-            // Jika belum ada, buat data baru
-            Carts::create($validated);
-        }
-
-        return redirect()->route('checkout')->with('success', 'Produk berhasil ditambahkan!');
-//        return back()->with('success', 'Product berhasil ditambahkan.');
     }
 
     public function process(Request $request)
