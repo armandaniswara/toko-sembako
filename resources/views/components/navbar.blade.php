@@ -3,12 +3,7 @@
 
     <a href="/" class="fs-2 fw-bold text-light text-decoration-none fst-italic ff-popins" style="">Sembako<span
             class="text-coffe" style="color: #b98a55;">Plus.</span></a>
-{{--    <ul class="d-flex list-unstyled mb-0 gap-4">--}}
-{{--        <li><a href="#home" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Home</a></li>--}}
-{{--        <li><a href="#about" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Tentang Kami</a></li>--}}
-{{--        <li><a href="#belanja" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Pergi Belanja</a></li>--}}
-{{--        <li><a href="#contact" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Kontak</a></li>--}}
-{{--    </ul>--}}
+
     <ul class="d-flex list-unstyled mb-0 gap-4">
         <li><a href="/" class="text-decoration-none fs-5 text-a ff-popins fw-bold">Home</a></li>
 
@@ -32,7 +27,17 @@
     {{--    @endauth--}}
 
     <div class="navbar-extra">
-        <a href="/cart" id="shopping-cart" class="text-a me-3"><i data-feather="shopping-cart"></i></a>
+        <a href="/cart" id="shopping-cart" class="text-a me-3 position-relative">
+            <i data-feather="shopping-cart"></i>
+            @if(isset($cartCount) && $cartCount > 0)
+                <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6em; padding: .4em .6em;">
+            {{ $cartCount }}
+            <span class="visually-hidden">items in cart</span>
+                </span>
+            @else
+                <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6em; padding: .4em .6em; display: none;"></span>
+            @endif
+        </a>
         <a href="/transaksi" id="clipboard" class="text-a me-3"><i data-feather="clipboard"></i></a>
         <a href="/profile" id="user" class="text-a me-5"><i data-feather="user"></i></a>
     </div>

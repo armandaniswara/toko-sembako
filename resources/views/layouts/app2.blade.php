@@ -32,38 +32,79 @@
 <script>
     feather.replace();
 
-        // Jalankan skrip setelah seluruh konten halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
+        const addToCartForms = document.querySelectorAll('.add-to-cart-form');
+
+        addToCartForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(this);
+                const actionUrl = this.getAttribute('action');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                fetch(actionUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update angka pada ikon keranjang
+                            const cartBadge = document.getElementById('cart-count-badge');
+                            if (cartBadge) {
+                                cartBadge.textContent = data.cartCount;
+                                cartBadge.style.display = 'inline-block';
+                            }
+
+                            // Anda bisa menambahkan notifikasi pop-up yang lebih baik di sini
+                            alert(data.message);
+                        } else {
+                            alert('Gagal menambahkan produk.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+
+
+    // Jalankan skrip setelah seluruh konten halaman dimuat
+    document.addEventListener('DOMContentLoaded', function () {
 
         // Cek apakah kita berada di halaman utama (URL-nya hanya "/")
         const isHomepage = window.location.pathname === '/';
 
         // Jika kita berada di halaman utama, aktifkan smooth scroll
         if (isHomepage) {
-        // Ambil semua tautan navigasi yang memiliki kelas .nav-link-scroll
-        const scrollLinks = document.querySelectorAll('.nav-link-scroll');
+            // Ambil semua tautan navigasi yang memiliki kelas .nav-link-scroll
+            const scrollLinks = document.querySelectorAll('.nav-link-scroll');
 
-        scrollLinks.forEach(function(link) {
-        link.addEventListener('click', function(event) {
-        // 1. Mencegah perilaku default tautan (yaitu pindah halaman)
-        event.preventDefault();
+            scrollLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    // 1. Mencegah perilaku default tautan (yaitu pindah halaman)
+                    event.preventDefault();
 
-        // 2. Ambil tujuan scroll dari atribut href (misal: "/#about" menjadi "#about")
-        const targetId = this.hash; // this.hash akan menghasilkan "#about"
+                    // 2. Ambil tujuan scroll dari atribut href (misal: "/#about" menjadi "#about")
+                    const targetId = this.hash; // this.hash akan menghasilkan "#about"
 
-        // 3. Cari elemen di halaman yang memiliki ID tersebut
-        const targetElement = document.querySelector(targetId);
+                    // 3. Cari elemen di halaman yang memiliki ID tersebut
+                    const targetElement = document.querySelector(targetId);
 
-        // 4. Jika elemen ditemukan, scroll ke sana dengan halus
-        if (targetElement) {
-        targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-    });
-    }
-    });
-    });
-    }
+                    // 4. Jika elemen ditemukan, scroll ke sana dengan halus
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
         // Jika tidak di halaman utama, tidak ada JavaScript yang berjalan.
         // Tautan akan berfungsi normal (misal: dari /produk akan pindah ke /#about).
     });
@@ -71,3 +112,4 @@
 </script>
 @stack('scripts')
 </html>
+

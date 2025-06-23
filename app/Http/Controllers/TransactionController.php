@@ -58,9 +58,6 @@ class TransactionController extends Controller
         // Hitung summary total dari seluruh 'jumlah'
         $totalSummary = $transactions->sum('jumlah');
 
-        // Hitung summary total dari seluruh 'jumlah'
-        $totalSummary = $transactions->sum('jumlah');
-
         return view('admin.detail', compact('transactions', 'totalSummary'));
     }
 

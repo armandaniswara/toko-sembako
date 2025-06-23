@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Models\Products;
+use App\Models\Shipment;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
 use App\Models\Carts;
@@ -32,8 +34,13 @@ class CheckoutController extends Controller
         // Tandai bahwa ini adalah checkout dari keranjang
         $checkout_type = 'cart';
 
+        $payments = Payment::all();
+        $shipments = Shipment::all();
+
         return view('checkout', [
             'checkouts' => $checkouts,
+            'payments' => $payments,
+            'shipments' => $shipments,
             'userAlamat' => $user->alamat,
             'checkout_type' => $checkout_type
         ]);
@@ -46,7 +53,8 @@ class CheckoutController extends Controller
             'sku' => ['required', 'string', 'exists:products,sku'],
             'qty' => ['required', 'integer', 'min:1'],
         ]);
-
+        $payments = Payment::all();
+        $shipments = Shipment::all();
         $user = auth()->user();
         $sku = $request->input('sku');
         $qty = $request->input('qty');
@@ -65,11 +73,14 @@ class CheckoutController extends Controller
         // Kirim item ini ke view dalam sebuah array agar konsisten dengan metode index()
         $checkouts = collect([$checkoutItem]);
 
+
         // Tandai bahwa ini adalah checkout "Beli Sekarang"
         $checkout_type = 'now';
 
         return view('checkout', [
             'checkouts' => $checkouts,
+            'payments' => $payments,
+            'shipments' => $shipments,
             'userAlamat' => $user->alamat,
             'checkout_type' => $checkout_type
         ]);
@@ -83,6 +94,8 @@ class CheckoutController extends Controller
             'cart_selected.*' => ['string', 'exists:products,sku'], // Pastikan setiap isinya adalah SKU yang valid
         ]);
 
+        $payments = Payment::all();
+        $shipments = Shipment::all();
         $user = auth()->user();
         $selectedSkus = $validated['cart_selected'];
 
@@ -104,6 +117,8 @@ class CheckoutController extends Controller
         // 3. Tampilkan halaman checkout dengan data yang sudah difilter
         return view('checkout', [
             'checkouts' => $checkouts,
+            'payments' => $payments,
+            'shipments' => $shipments,
             'userAlamat' => $user->alamat,
             'checkout_type' => 'selected' // Kita bisa gunakan tipe baru jika perlu logika berbeda di view checkout
         ]);
