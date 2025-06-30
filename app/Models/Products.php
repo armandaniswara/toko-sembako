@@ -18,6 +18,11 @@ class Products extends Model
         'image',
     ];
 
+    protected $casts = [
+        'price' => 'float',
+        'stock' => 'integer',
+    ];
+
     public function details()
     {
         return $this->hasMany(TransactionsDetail::class, 'sku', 'sku');

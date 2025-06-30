@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use App\Models\Shipment;
 use App\Models\Transactions;
 use App\Models\TransactionsDetail;
 use Illuminate\Http\Request;
@@ -12,121 +13,129 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-
     public function index(Request $request)
     {
         $search = $request->input('search');
 
-        // Query utama dengan join ke transaction_details dan products
-        $query = Transactions::select('transaction.*')
-            ->selectRaw('COALESCE(SUM(products.price * transaction_detail.qty), 0) as total_amount')
-            ->leftJoin('transaction_detail', 'transaction.invoice', '=', 'transaction_detail.invoice')
-            ->leftJoin('products', 'transaction_detail.sku', '=', 'products.sku')
-            ->groupBy('transaction.id'); // Pastikan groupBy sesuai primary key
+        // --- Query untuk transaksi yang menunggu konfirmasi ---
+        // Mengambil semua transaksi dengan status 'Belum Dibayar'
+        $pendingPayments = Transactions::with('shipment')
+            ->where('pembayaran', 'Belum Dibayar')
+            ->orderBy('tanggal_pemesanan', 'asc') // Tampilkan yang paling lama dulu
+            ->get();
 
-        // Filter pencarian jika ada
+
+        // --- Query untuk semua transaksi (dengan filter dan pagination) ---
+        $query = Transactions::with('shipment');
+
         if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('transaction.invoice', 'like', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('invoice', 'like', "%{$search}%")
+                    ->orWhere('name', 'like', "%{$search}%");
             });
         }
 
-        // Urutkan dan paginasi
-        $transactions = $query->orderBy('transaction.updated_at', 'desc')->paginate(10);
+        $allTransactions = $query->orderBy('tanggal_pemesanan', 'desc')->paginate(10);
 
-        return view('admin.transaction', compact('transactions', 'search'));
+        // Ambil semua metode pengiriman untuk modal edit
+        $shipments = Shipment::all();
+
+        // Kirim semua data yang dibutuhkan ke view
+        return view('admin.transaction', [
+            'pendingPayments' => $pendingPayments,
+            'transactions' => $allTransactions,
+            'search' => $search,
+            'shipments' => $shipments,
+        ]);
+    }
+
+    public function printAll()
+    {
+        $transactions = Transactions::orderBy('tanggal_pemesanan', 'desc')->get();
+        $grandTotal = $transactions->sum('total');
+        return view('admin.print-all', [
+            'transactions' => $transactions,
+            'grandTotal' => $grandTotal,
+        ]);
     }
 
     public function detail($invoice)
     {
-        $transactions = TransactionsDetail::with(['product', 'transaction'])
+        $transaction = Transactions::with('details.product')
             ->where('invoice', $invoice)
-            ->get();
-
-        // Jika data tidak ditemukan, redirect kembali dengan pesan error
-        if ($transactions->isEmpty()) {
-            return redirect()->back()->with('error', 'Data transaction_detail tidak ditemukan untuk invoice: ' . $invoice);
-        }
-
-        // Tambahkan kolom 'jumlah' untuk setiap item (product.price * qty)
-        $transactions->transform(function ($item) {
-            $price = $item->product->price ?? 0;
-            $item->jumlah = $price * $item->qty;
-            return $item;
+            ->firstOrFail();
+        $subtotal = $transaction->details->sum(function ($detail) {
+            if ($detail->product) {
+                return $detail->qty * $detail->product->price;
+            }
+            return 0;
         });
-
-        // Hitung summary total dari seluruh 'jumlah'
-        $totalSummary = $transactions->sum('jumlah');
-
-        return view('admin.detail', compact('transactions', 'totalSummary'));
+        return view('admin.detail', compact('transaction', 'subtotal'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('transaction.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'tanggal_pemesanan' => 'required|date',
-            'invoice' => 'required|unique:transaksi',
+            'invoice' => 'required|string|unique:transactions,invoice',
             'pengiriman' => 'required|string',
             'pembayaran' => 'required|string',
+            'cost' => 'required|numeric|min:0',
             'total' => 'required|numeric|min:0',
         ]);
-
-        Transactions::create([
-            'tanggal_pemesanan' => $request->tanggal_pemesanan,
-            'invoice' => $request->invoice,
-            'pengiriman' => $request->pengiriman,
-            'pembayaran' => $request->pembayaran,
-            'total' => $request->price
-        ]);
-
+        Transactions::create($validated);
         return redirect()->route('transaction.index')->with('success', 'Data transaksi berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Transactions $transaction)
     {
-        return view('transaction.show', compact('transaction'));
+        return redirect()->route('transaction.detail', $transaction->invoice);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Transactions $transaction)
     {
         return view('transaction.edit', compact('transaction'));
     }
 
+
     /**
      * Update the specified resource in storage.
+     * Logika perhitungan total telah disempurnakan.
      */
     public function update(Request $request, $id)
     {
         $transaction = Transactions::findOrFail($id);
 
-
         $validated = $request->validate([
+            'code' => 'required|string|exists:shipment_status,code',
             'pengiriman' => 'required|string|max:255',
             'pembayaran' => 'required|string|max:255',
+            'cost' => 'required|numeric|min:0',
         ]);
 
-        $transaction->update($validated);
+        $selectedShipment = Shipment::where('code', $validated['code'])->firstOrFail();
+
+        $updateData = [
+            'code'              => $validated['code'],
+            'pengiriman' => $validated['pengiriman'],
+            'pembayaran'        => $validated['pembayaran'],
+            'cost'              => $validated['cost'],
+        ];
+
+        // 1. Muat relasi detail transaksi beserta produknya
+        $transaction->load('details.product');
+        $subtotal = $transaction->details->sum(fn($detail) => optional($detail->product)->price * $detail->qty);
+        $newTotal = $subtotal + $validated['cost'];
+        $updateData['total'] = $newTotal;
+
+        // 4. Update transaksi dengan data yang sudah lengkap
+        $transaction->update($updateData);
 
         return redirect()->route('transaction.index')->with('success', 'Status transaksi berhasil diperbarui.');
     }
-
-
 }

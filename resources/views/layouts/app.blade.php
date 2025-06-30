@@ -100,6 +100,8 @@
         // Jika tidak di halaman utama, tidak ada JavaScript yang berjalan.
         // Tautan akan berfungsi normal (misal: dari /produk akan pindah ke /#about).
     });
+
+
 </script>
 @stack('scripts')
 </html>

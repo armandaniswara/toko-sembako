@@ -33,6 +33,7 @@
             <th>Tanggal Pemesanan</th>
             <th>Nama</th>
             <th>Invoice</th>
+            <th>Code</th>
             <th>Status Pengiriman</th>
             <th>Status Pembayaran</th>
             <th>Total</th>
@@ -46,7 +47,7 @@
                 <td>{{ $transaction->tanggal_pemesanan->format('d M Y')  }}</td>
                 <td>{{ $transaction->name }}</td>
                 <td>{{ $transaction->invoice }}</td>
-{{--                <td>{{ $transaction->pengiriman }}</td>--}}
+                <td>{{$transaction->code}}</td>
                 <td>
                     @php
                         $statusPengiriman = $transaction->pengiriman;
@@ -60,7 +61,7 @@
                     @endphp
                     <span class="badge {{ $warnaPengiriman }}" style="font-size: 15px;">{{ $statusPengiriman }}</span>
                 </td>
-{{--                <td>{{ $transaction->pembayaran }}</td>--}}
+                {{--                <td>{{ $transaction->pembayaran }}</td>--}}
                 <td>
                     @php
                         $statusPembayaran = $transaction->pembayaran;
@@ -73,15 +74,13 @@
                     @endphp
                     <span class="badge {{ $warnaPembayaran }}" style="font-size: 15px;">{{ $statusPembayaran }}</span>
                 </td>
-                <td>Rp{{ number_format($transaction->total_amount, 2, ',', '.') }}</td>
+                <td>Rp{{ number_format($transaction->total, 2, ',', '.') }}</td>
                 <td>
                     <a href="#"
                        class="btn btn-warning btn-sm"
                        data-bs-toggle="modal"
                        data-bs-target="#editTransactionModal"
-                       data-id="{{ $transaction->id }}"
-                       data-pengiriman="{{ $transaction->pengiriman }}"
-                       data-pembayaran="{{ $transaction->pembayaran }}"
+                       data-transaction="{{ json_encode($transaction) }}"
                     >
                         Edit
                     </a>
@@ -99,6 +98,7 @@
         </tbody>
     </table>
 
+
     <!-- Edit Product Modal -->
     @foreach($transactions as $index => $transaction)
         @include('admin.components.edit-transactions-modal', ['transaction' => $transaction])
@@ -109,25 +109,25 @@
     </div>
 
 
-
     @push('scripts')
+        {{-- Pastikan script untuk modal Anda sudah benar --}}
         <script>
             const editModal = document.getElementById('editTransactionModal');
-            editModal.addEventListener('show.bs.modal', function (event) {
-                const button = event.relatedTarget;
-
-                const id = button.getAttribute('data-id');
-                const pengiriman = button.getAttribute('data-pengiriman');
-                const pembayaran = button.getAttribute('data-pembayaran');
-
-                // Isi input modal dengan data
-                editModal.querySelector('#edit-id').value = id;
-                editModal.querySelector('#edit-pengiriman').value = pengiriman;
-                editModal.querySelector('#edit-pembayaran').value = pembayaran;
-
+            if (editModal) {
                 const form = document.getElementById('editTransactionForm');
-                form.action = `/transaction/${id}`;
-            });
+                editModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const transaction = JSON.parse(button.getAttribute('data-transaction'));
+                    form.action = `/transaction/${transaction.id}`;
+
+                    // PERBAIKAN: Isi dropdown dengan 'code' dari data transaksi
+                    form.querySelector('#edit-code').value = transaction.code || '';
+
+                    form.querySelector('#cost').value = transaction.cost;
+                    form.querySelector('#edit-status-pengiriman').value = transaction.status_pengiriman;
+                    form.querySelector('#edit-pembayaran').value = transaction.pembayaran;
+                });
+            }
         </script>
     @endpush
 @endsection

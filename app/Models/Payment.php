@@ -16,4 +16,9 @@ class Payment extends Model
         'code',
         'name',
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(TransactionsDetail::class, 'code', 'code');
+    }
 }
