@@ -12,11 +12,15 @@ class Transactions extends Model
     protected $table = 'transaction';
 
     protected $fillable = [
-        'tanggal_pemesanan',
+        'name',
+        'email',
         'invoice',
-        'status',
+        'total',
+        'code',
         'pengiriman',
         'pembayaran',
+        'tanggal_pemesanan',
+        'cost',
     ];
 
     protected $casts = [
@@ -26,5 +30,15 @@ class Transactions extends Model
     public function details()
     {
         return $this->hasMany(TransactionsDetail::class, 'invoice', 'invoice');
+    }
+
+    public function payments()
+    {
+        return $this->belongsTo(Payment::class, 'code', 'code');
+    }
+
+    public function shipment()
+    {
+        return $this->belongsTo(Shipment::class, 'code', 'code');
     }
 }

@@ -50,11 +50,31 @@
                     </select>
                 </div>
 
+                <div class="mb-3">
+                    <label for="edit-code" class="form-label">Metode Pengiriman</label>
+                    {{-- PERBAIKAN: 'name' diubah menjadi 'code' --}}
+                    <select name="code" id="edit-code" class="form-control" required>
+                        <option value="">-- Pilih Metode --</option>
+                        @foreach($shipments as $shipment)
+                            <option value="{{ $shipment->code }}">{{ $shipment->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="cost" class="form-label">Ongkos Kirim (Rp)</label>
+                    <input type="number" class="form-control @error('cost') is-invalid @enderror" id="cost" name="cost"
+                           value="{{ old('cost') }}" required>
+                    @error('cost')
+                    <div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+
 
                 <button type="submit" class="btn btn-primary">Ubah</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
         </form>
     </div>
 </div>
-</div>
+
 

@@ -100,7 +100,7 @@ class AuthController extends Controller
             if ($user->role === 'Admin') {
                 return redirect()->intended('/admin');
             } elseif ($user->role === 'User') {
-                return redirect()->intended('/home');
+                return redirect()->intended('/');
             } else {
                 Auth::logout();
                 return redirect()->route('login')->withErrors(['email' => 'Unauthorized role.']);
@@ -116,11 +116,17 @@ class AuthController extends Controller
     // Handle logout
     public function logout(Request $request)
     {
+        // 1. Menggunakan Auth facade untuk logout pengguna yang sedang aktif.
         Auth::logout();
 
+        // 2. Invalidate sesi pengguna untuk keamanan.
+        // Ini akan membersihkan semua data sesi.
         $request->session()->invalidate();
+
+        // 3. Regenerate token CSRF untuk mencegah serangan.
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        // 4. Arahkan pengguna kembali ke halaman utama (homepage).
+        return redirect('/');
     }
 }

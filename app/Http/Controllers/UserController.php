@@ -28,6 +28,20 @@ class UserController extends Controller
         return view('admin.user', compact('users', 'search'));
     }
 
+    public function profile()
+    {
+        // Ambil data pengguna yang sedang terautentikasi
+        $user = auth()->user();
+
+        // Jika tidak ada user yang login, arahkan ke halaman login
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        // Kirim data user ke view 'profile.show'
+        return view('profile', compact('user'));
+    }
+
     public function destroy(User $user)
     {
         $user->delete();

@@ -18,6 +18,11 @@ class Products extends Model
         'image',
     ];
 
+    protected $casts = [
+        'price' => 'float',
+        'stock' => 'integer',
+    ];
+
     public function details()
     {
         return $this->hasMany(TransactionsDetail::class, 'sku', 'sku');
@@ -25,6 +30,6 @@ class Products extends Model
 
     public function cart()
     {
-        return $this->hasMany(Cart::class, 'sku', 'sku');
+        return $this->hasMany(Carts::class, 'sku', 'sku');
     }
 }

@@ -8,24 +8,6 @@ use Illuminate\Http\Request;
 class ProductsController extends Controller
 {
 
-//    public function index(Request $request)
-//    {
-//        $search = $request->input('search');
-//
-//        $query = Products::query();
-//
-//        if ($search) {
-//            $query->where(function($q) use ($search) {
-//                $q->where('sku', 'like', "%{$search}%")
-//                    ->orWhere('name', 'like', "%{$search}%");
-//            });
-//        }
-//
-//        $products = $query->orderBy('created_at', 'desc')->paginate(10);
-//
-//        return view('admin.products', compact('products', 'search'));
-//    }
-
     public function index(Request $request)
     {
         $search = $request->query('search');
@@ -42,11 +24,23 @@ class ProductsController extends Controller
         return view('admin.products', compact('products'));
     }
 
-    public function shop()
+    public function shop(Request $request)
     {
-        $products = Products::all();
-        return view('home', compact('products'));
+        $search = $request->query('search');
+
+        $products = Products::query()
+            ->when($search, function ($query, $search) {
+                // Pengguna hanya bisa mencari berdasarkan nama produk
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->latest() // Cara singkat untuk orderBy('created_at', 'desc')
+            ->paginate(12) // Tampilkan 12 produk per halaman
+            ->withQueryString(); // Agar ?search=... tetap ada di link pagination
+
+        // Kirim juga variabel $search ke view agar bisa ditampilkan di input field
+        return view('home', compact('products', 'search'));
     }
+
 
     public function detail($id)
     {

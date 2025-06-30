@@ -1,110 +1,97 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" href="../../public/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap" rel="stylesheet"/>
-</head>
-<nav class="d-flex justify-content-between align-items-center px-5 py-3"
-     style="background-color: rgba(1,1,1,0.8); border-bottom: 1px solid #684e34; position: fixed; top: 0; left: 0; right: 0; z-index: 9999; ">
+@extends('layouts.app2')
 
-    <a href="/" class="fs-2 fw-bold text-light text-decoration-none fst-italic ff-popins " style="">Sembako<span class="text-coffe" style="color: #b98a55;">Plus.</span></a>
+@section('title', 'Checkout')
 
+@section('content')
 
+    <body class="ps-5 pe-5" style="margin-top: 15vh;">
+    <form action="{{ route('checkout.process') }}" method="POST">
+        @csrf
 
+        {{-- Input tersembunyi yang penting --}}
+        <input type="hidden" name="checkout_type" value="{{ $checkout_type }}">
 
-    {{--    @auth--}}
-    {{--        <form method="POST" action="{{ route('logout') }}">--}}
-    {{--            @csrf--}}
-    {{--            <button type="submit" class="btn btn-danger">Logout</button>--}}
-    {{--        </form>--}}
-    {{--    @endauth--}}
+        @if($checkout_type === 'now' && !$checkouts->isEmpty())
+            <input type="hidden" name="sku" value="{{ $checkouts->first()->product->sku }}">
+            <input type="hidden" name="qty" value="{{ $checkouts->first()->qty }}">
+        @endif
+
+        @if($checkout_type === 'selected' && isset($cart_selected))
+            @foreach($cart_selected as $sku)
+                <input type="hidden" name="cart_selected[]" value="{{ $sku }}">
+            @endforeach
+        @endif
 
 
-</nav>
-
-<body class="bg-light p-custom ps-5 text-dark">
-    <div class="bg-white mx-5 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 50px;">
-        <div class=" d-flex">
-            <input class="ms-5" type="checkbox" value="" id="defaultCheck1">
-            <label class="ms-4" for="defaultCheck1">
-                Produk
-            </label>
-        </div>
-        <label class="ms-5">Harga Satuan</label>
-        <div class="d-flex align-items-center">
-            <label class="">Kuantitas</label>
-            <label class="ms-5">Total Harga</label>
-            <label class="ms-5" >Aksi</label>
-        </div>
-    </div>
-    @foreach ($carts as $item)
-    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">
-            <div class=" d-flex">
-                <input class="" type="checkbox" value="" id="defaultCheck1">
-                <label class="ms-4" for="defaultCheck1">
-                    Produk
-                </label>
+        <div class="ps-5 pe-5">
+            <h3 class="ps-3 ff-popins fw-bolder">Checkout</h3>
+            <div class="d-flex p-3">
+                <div class="container ff-popins" style="width: 68%;">
+                    <div class=" bg-white rounded-3 p-3 my-3">
+                        <h6 class="fw-bolder">Alamat Pengiriman</h6>
+                        <div class="d-flex">
+                            <i class="fa-solid fa-location-dot my-1 me-2"></i>
+                            <p>{{ $userAlamat ?? 'Alamat tidak ditemukan' }}</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-3 p-3">
+                        <h6 class="fw-bolder">Produk</h6>
+                        <table class="table align-middle">
+                            <tbody>
+                            @forelse ($checkouts as $checkout)
+                                <tr>
+                                    <td style="width: 15%;">
+                                        @if($checkout->product->image)
+                                            <img style="width: 75px; height: auto;"
+                                                 src="{{ asset('storage/products/' . $checkout->product->image) }}"
+                                                 alt="{{ $checkout->product->name }}">
+                                        @else
+                                            <img style="width: 75px; height: auto;" src="[https://placehold.co/75x75/EFEFEF/A9A9A9?text=No+Image](https://placehold.co/75x75/EFEFEF/A9A9A9?text=No+Image)" alt="No image">
+                                        @endif
+                                    </td>
+                                    <td style="width: 40%;">{{ $checkout->product->name }}</td>
+                                    <td style="width: 15%;" class="fw-bold ff-popins">
+                                        Rp{{ number_format($checkout->product->price , 0, ',', '.') }}</td>
+                                    <td style="width: 27%;">
+                                        <div class="input-group input-group-sm ms-5" style="width: 90px">
+                                            <p>{{ $checkout->qty }} barang</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center text-secondary py-3">Tidak ada item untuk di-checkout.</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="container bg-white rounded-3 ff-popins p-3 my-3" style="width: 30%;">
+                    <h6 class="fw-bold">Metode Pembayaran</h6>
+                    <div class="mb-3">
+                        <select name="payment_method_code" id="payment-method" class="form-control my-1" required>
+                            <option value="">Pilih Metode Pembayaran</option>
+                            @foreach($payments as $payment)
+                                <option value="{{ $payment->code }}">{{ $payment->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('payment_method_code')<p class="text-danger small mt-1">{{ $message }}</p>@enderror
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="text-secondary">Total</p>
+                        {{-- Variabel $totalPrice sekarang datang langsung dari controller --}}
+                        <p id="total-harga" class="fw-bold">Rp{{ number_format($totalPrice, 0, ',', '.') }}</p>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn-custom fw-bold ff-popins rounded-3" type="submit"
+                                style="height: 5vh; width: 100%;">Bayar
+                        </button>
+                    </div>
+                </div>
             </div>
-            <label class="ms-5">{{ number_format($item->product->price ?? 0, 0, ',', '.') }}</label>
-            <div class="d-flex align-items-center">
-                <label class="">Kuantitas</label>
-                <label class="ms-5">Total Harga</label>
-                <label class="ms-5" >Hapus</label>
-            </div>
+        </div>
+    </form>
+    </body>
 
-    </div>
-    @endforeach
-{{--    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">--}}
-{{--        <div class=" d-flex">--}}
-{{--            <input class="" type="checkbox" value="" id="defaultCheck1">--}}
-{{--            <label class="ms-4" for="defaultCheck1">--}}
-{{--                Produk--}}
-{{--            </label>--}}
-{{--        </div>--}}
-{{--        <label class="ms-5">Harga Satuan</label>--}}
-{{--        <div class="d-flex align-items-center">--}}
-{{--            <label class="">Kuantitas</label>--}}
-{{--            <label class="ms-5">Total Harga</label>--}}
-{{--            <label class="ms-5" >Hapus</label>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="bg-white mx-5 my-3 rounded-1 shadow d-flex align-items-center justify-content-around" style="width: 88%; height: 100px;">--}}
-{{--        <div class=" d-flex">--}}
-{{--            <input class="" type="checkbox" value="" id="defaultCheck1">--}}
-{{--            <label class="ms-4" for="defaultCheck1">--}}
-{{--                Produk--}}
-{{--            </label>--}}
-{{--        </div>--}}
-{{--        <label class="ms-5">Harga Satuan</label>--}}
-{{--        <div class="d-flex align-items-center">--}}
-{{--            <label class="">Kuantitas</label>--}}
-{{--            <label class="ms-5">Total Harga</label>--}}
-{{--            <label class="ms-5" >Hapus</label>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-</body>
-<div class="position-fixed d-flex align-items-center bg-white rounded-1 shadow justify-content-between bottom-0 start-50 translate-middle-x mb-3" style="width: 85%; height: 50px;">
-    <div class=" d-flex">
-        <input class="ms-5" type="checkbox" value="" id="defaultCheck1">
-        <label class="ms-4" for="defaultCheck1">
-            Pilih Semua (item)
-        </label>
-        <label class="ms-5">Hapus</label>
-    </div>
-    <div class="d-flex align-items-center">
-    <label>Total(0 produk):</label>
-        <label class="me-2">Rp.0</label>
-    <button class="btn-custom border-0 rounded-2 d-flex align-items-center justify-content-center me-5" style=" width: 125px; height: 35px;">
-        Checkout
-    </button>
-    </div>
-
-</div>
-</html>
+@endsection

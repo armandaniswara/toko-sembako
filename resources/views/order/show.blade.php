@@ -1,33 +1,33 @@
 
-@extends('admin.layouts.app') {{-- Sesuaikan dengan layout admin utama Anda --}}
+@extends('layouts.app2')
 
-@section('title', 'Detail Transaksi ' . $transaction->invoice)
+@section('title', 'Detail Pesanan ' . $transaction->invoice)
 
 @section('content')
-    <div class="container-fluid mt-4">
+    <body class="ps-5 pe-5" style="margin-top: 15vh; margin-bottom: 5vh;">
+    <div class="container">
         <div class="card shadow-sm">
             <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                <h4 class="mb-0 fw-bold">Detail Transaksi</h4>
-                <a href="{{ route('transaction.index') }}" class="btn btn-secondary">
+                <h4 class="mb-0 fw-bold">Detail Pesanan</h4>
+                <a href="{{ route('order.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left me-2"></i>
-                    Kembali ke Daftar Transaksi
+                    Kembali ke Riwayat
                 </a>
             </div>
-            <div class="card-body">
-                {{-- INFORMASI UTAMA --}}
+            <div class="card-body p-4">
+                {{-- Informasi Utama --}}
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <p class="mb-2"><strong>Invoice:</strong><br>{{ $transaction->invoice }}</p>
-                        <p class="mb-2"><strong>Nama Pelanggan:</strong><br>{{ $transaction->name }}</p>
-                        <p class="mb-0"><strong>Tanggal Pemesanan:</strong><br>{{ $transaction->tanggal_pemesanan->format('d F Y, H:i') }}</p>
+                        <p class="mb-0"><strong>Tanggal Pesanan:</strong><br>{{ $transaction->tanggal_pemesanan->format('d F Y, H:i') }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="mb-2"><strong>Metode Pengiriman:</strong><br>{{ $transaction->pengiriman }}</p>
-                        <p class="mb-0"><strong>Status Pembayaran:</strong><br><span class="badge bg-warning text-dark fs-6">{{ $transaction->pembayaran }}</span></p>
+                        <p class="mb-2"><strong>Status Pembayaran:</strong><br><span class="badge bg-primary fs-6">{{ $transaction->pembayaran }}</span></p>
+                        <p class="mb-0"><strong>Status Pengiriman:</strong><br><span class="badge bg-success fs-6">{{ $transaction->pengiriman }}</span></p>
                     </div>
                 </div>
 
-                {{-- RINCIAN PRODUK --}}
+                {{-- Rincian Produk --}}
                 <h5 class="fw-bold mt-4">Rincian Produk</h5>
                 <div class="table-responsive">
                     <table class="table">
@@ -40,7 +40,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{-- Looping dari relasi 'details' yang ada di dalam objek $transaction --}}
                         @forelse ($transaction->details as $detail)
                             <tr>
                                 <td>{{ $detail->product->name ?? 'Produk tidak ditemukan' }}</td>
@@ -49,38 +48,33 @@
                                 <td class="text-end">Rp{{ number_format($detail->qty * ($detail->product->price ?? 0), 0, ',', '.') }}</td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="4" class="text-center text-secondary py-3">Detail produk tidak ditemukan.</td>
-                            </tr>
+                            <tr><td colspan="4" class="text-center">Detail produk tidak ditemukan.</td></tr>
                         @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                {{-- RINCIAN BIAYA --}}
+                {{-- Rincian Biaya --}}
                 <div class="row mt-3 justify-content-end">
                     <div class="col-md-5 col-lg-4">
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Subtotal Produk:</span>
-                                {{-- Menggunakan variabel $subtotal yang dihitung di controller --}}
                                 <span>Rp{{ number_format($subtotal, 0, ',', '.') }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Ongkos Kirim:</span>
-                                {{-- Mengambil 'cost' dari transaksi utama --}}
                                 <span>Rp{{ number_format($transaction->cost, 0, ',', '.') }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between fw-bold fs-5 bg-light">
                                 <span>Grand Total:</span>
-                                {{-- MENGHITUNG ULANG GRAND TOTAL = SUBTOTAL PRODUK + ONGKOS KIRIM --}}
-                                <span>Rp{{ number_format($subtotal + $transaction->cost, 0, ',', '.') }}</span>
+                                <span>Rp{{ number_format($transaction->total, 0, ',', '.') }}</span>
                             </li>
                         </ul>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+    </body>
 @endsection

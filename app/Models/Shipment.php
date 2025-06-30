@@ -16,4 +16,9 @@ class Shipment extends Model
         'code',
         'name',
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transactions::class, 'code', 'code');
+    }
 }

@@ -62,6 +62,10 @@
                     </table>
             </div>
         </div>
+        <a href="{{ route('transaction.printAll') }}" class="btn btn-dark ms-2 mt-4" target="_blank">
+            <i class="fa fa-print me-2"></i>
+            Cetak Laporan
+        </a>
     </div>
     <div class="d-flex justify-content-center my-3">
         {{ $transactions->links() }}
